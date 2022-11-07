@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { MarketsService } from './markets.service';
 import { MarketsController } from './markets.controller';
 import { APP_FILTER } from '@nestjs/core';
@@ -9,6 +9,7 @@ import { HttpExceptionFilter } from 'src/filters/http-exception/http-exception.f
   providers: [
     MarketsService,
     { provide: APP_FILTER, useClass: HttpExceptionFilter },
+    Logger,
   ],
 })
 export class MarketsModule {}
