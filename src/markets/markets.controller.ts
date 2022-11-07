@@ -1,15 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpStatus,
+  UseFilters,
+} from '@nestjs/common';
 import { MarketsService } from './markets.service';
 import { CreateMarketDto } from './dto/create-market.dto';
 import { UpdateMarketDto } from './dto/update-market.dto';
+import { MarketCustomException } from './market-exception';
+import { HttpExceptionFilter } from 'src/filters/http-exception/http-exception.filter';
 
+// HttpExceptionFilter 을 컨트롤러에서 적용.
+@UseFilters(new HttpExceptionFilter())
 @Controller('markets')
 export class MarketsController {
   constructor(private readonly marketsService: MarketsService) {}
 
   @Post()
   create(@Body() createMarketDto: CreateMarketDto) {
-    return this.marketsService.create(createMarketDto);
+    throw new MarketCustomException('커스텀에러', HttpStatus.BAD_REQUEST);
+    // return this.marketsService.create(createMarketDto);
   }
 
   @Get()
