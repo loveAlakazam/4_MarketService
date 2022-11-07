@@ -22,8 +22,10 @@
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/mapped-types": "*",
+    "@nestjs/mongoose": "^9.2.1",
     "@nestjs/platform-express": "^9.0.0",
     "@types/dotenv": "^8.2.0",
     "@types/joi": "^17.2.3",
@@ -31,6 +33,7 @@
     "class-validator": "^0.13.2",
     "dotenv": "^16.0.3",
     "joi": "^17.7.0",
+    "mongoose": "^6.7.2",
     "nest-winston": "^1.8.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
