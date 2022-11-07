@@ -1,0 +1,12 @@
+# node_modules
+/node_modules
+
+
+# .env
+.env
+
+# vscode
+/.vscode
+
+# DS_Store
+.DS_Store
