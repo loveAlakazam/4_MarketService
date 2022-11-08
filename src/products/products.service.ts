@@ -1,23 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Product, ProductDocument } from './schemas/product.schema';
+import { ProductsRepository } from './products.repository';
 
 @Injectable()
 export class ProductsService {
-  constructor(
-    @InjectModel(Product.name) private productModel: Model<ProductDocument>,
-  ) {}
+  // ProductsRepository 주입
+  constructor(private readonly repository: ProductsRepository) {}
 
-  async create(createProductDto: CreateProductDto): Promise<Product> {
-    const newProduct = new this.productModel(createProductDto);
-    return newProduct.save();
+  async create(createProductDto: CreateProductDto) {
+    // 상품을 등록한다.
+    return await this.repository.createProduct(createProductDto);
   }
 
-  async findAll(): Promise<Product[]> {
-    return await this.productModel.find().exec();
+  async findAll() {
+    // 모든 상품들을 리턴한다.
+    return await this.repository.findAllProducts();
   }
 
   findOne(id: number) {
