@@ -11,6 +11,8 @@ import {
 import * as winston from 'winston';
 
 async function bootstrap() {
+  /*
+  // winston logger
   const app = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger({
       transports: [
@@ -27,8 +29,9 @@ async function bootstrap() {
       ],
     }),
   });
+  */
 
-  // const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule);
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
