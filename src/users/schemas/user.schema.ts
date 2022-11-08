@@ -1,10 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { Product } from '../../products/schemas/product.schema';
 
 export type UserDocument = HydratedDocument<User>;
 
-@Schema() // 모델정의
+@Schema()
 export class User {
   @Prop({ required: true })
   name: string; // 이름
@@ -19,17 +18,16 @@ export class User {
   phoneNumber: string; //전화번호
 
   @Prop({ required: true, default: false })
-  isSeller: boolean; //셀러 회원 여부
+  isSeller: boolean; // 셀러 회원 여부
 
   @Prop()
-  createdAt: Date;
+  sellerNickname: string; // 셀러 닉네임
+
+  @Prop({ default: Date.now })
+  createdAt: Date; // 등록일
 
   @Prop()
-  deletedAt: Date;
-
-  // 유저:상품 = 1:N
-  //   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }] })
-  //   products: Product[];
+  deletedAt: Date; // 삭제일
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
