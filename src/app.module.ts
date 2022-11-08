@@ -15,14 +15,14 @@ import {
 
 import * as winston from 'winston';
 import { MongoDBConfigModule } from './config/mongodb-config.module';
-import { MongoDBConfigService } from './config/mongodb-config.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRootAsync({
-      imports: [MongoDBConfigModule],
-      useClass: MongoDBConfigService,
+      useFactory: () => ({
+        uri: process.env.MONGODB_URI,
+      }),
     }),
     UsersModule,
     MarketsModule,
