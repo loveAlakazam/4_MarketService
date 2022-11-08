@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMarketDto } from './dto/create-market.dto';
 import { UpdateMarketDto } from './dto/update-market.dto';
+import { MarketsRepository } from './markets.repository';
 
 @Injectable()
 export class MarketsService {
+  constructor(private readonly repository: MarketsRepository) {}
   create(createMarketDto: CreateMarketDto) {
     return 'This action adds a new market';
   }
