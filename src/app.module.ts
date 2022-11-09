@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LoggerMiddleware } from './logger/logger.middleware';
+import { LoggerMiddleware } from './commons/logger/logger.middleware';
 import { UsersModule } from './users/users.module';
 import { MarketsModule } from './markets/markets.module';
 import { ProductsModule } from './products/products.module';
@@ -14,7 +14,7 @@ import {
 } from 'nest-winston';
 
 import * as winston from 'winston';
-import { MongoDBConfigModule } from './config/mongodb-config.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -42,6 +42,7 @@ import { MongoDBConfigModule } from './config/mongodb-config.module';
       ],
     }),
     ConfigModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
