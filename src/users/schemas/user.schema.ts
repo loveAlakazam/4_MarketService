@@ -1,14 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import mongoose from 'mongoose';
 
-export type UserDocument = HydratedDocument<User>;
+export type UserDocument = User & mongoose.Document;
 
 @Schema()
 export class User {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   name: string; // 이름
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   email: string; // 이메일주소
 
   @Prop({ required: true })
@@ -28,6 +28,9 @@ export class User {
 
   @Prop()
   deletedAt: Date; // 삭제일
+
+  @Prop()
+  refreshToken: string; // 리프래시 토큰
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

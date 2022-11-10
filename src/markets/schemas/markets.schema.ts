@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { Product } from 'src/products/schemas/product.schema';
 import { User } from 'src/users/schemas/user.schema';
 
-export type MarketDocument = mongoose.HydratedDocument<Market>;
+export type MarketDocument = Market & mongoose.Document;
 
 @Schema()
 export class Market {
