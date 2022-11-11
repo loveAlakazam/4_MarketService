@@ -15,12 +15,18 @@ import {
 
 import * as winston from 'winston';
 import { AuthModule } from './auth/auth.module';
-import { UsersService } from './users/users.service';
-import { AuthService } from './auth/auth.service';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+      validationSchema: Joi.object({
+        SESSION_ID: Joi.string().required(),
+        COOKIE_SECRET: Joi.string().required(),
+      }),
+    }),
     MongooseModule.forRootAsync({
       useFactory: () => ({
         uri: process.env.MONGODB_URI,
