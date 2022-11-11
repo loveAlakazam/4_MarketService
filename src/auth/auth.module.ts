@@ -25,6 +25,5 @@ import { SessionSerializer } from './sessions/auth.session.serializer';
     { provide: APP_FILTER, useClass: HttpExceptionFilter },
     UsersRepository,
   ],
-  exports: [AuthService, PassportModule],
 })
 export class AuthModule {}
