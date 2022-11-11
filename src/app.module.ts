@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LoggerMiddleware } from './logger/logger.middleware';
+import { LoggerMiddleware } from './commons/logger/logger.middleware';
 import { UsersModule } from './users/users.module';
 import { MarketsModule } from './markets/markets.module';
 import { ProductsModule } from './products/products.module';
@@ -14,19 +14,29 @@ import {
 } from 'nest-winston';
 
 import * as winston from 'winston';
-import { MongoDBConfigModule } from './config/mongodb-config.module';
-import { MongoDBConfigService } from './config/mongodb-config.service';
+import { AuthModule } from './auth/auth.module';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+      validationSchema: Joi.object({
+        SESSION_ID: Joi.string().required(),
+        COOKIE_SECRET: Joi.string().required(),
+      }),
+    }),
     MongooseModule.forRootAsync({
-      imports: [MongoDBConfigModule],
-      useClass: MongoDBConfigService,
+      useFactory: () => ({
+        uri: process.env.MONGODB_URI,
+      }),
     }),
     UsersModule,
     MarketsModule,
     ProductsModule,
+
+    /*
     WinstonModule.forRoot({
       transports: [
         new winston.transports.Console({
@@ -41,7 +51,9 @@ import { MongoDBConfigService } from './config/mongodb-config.service';
         }),
       ],
     }),
+    */
     ConfigModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

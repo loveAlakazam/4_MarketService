@@ -1,8 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseFilters,
+} from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { HttpExceptionFilter } from '../commons/filters/http-exception/http-exception.filter';
 
+@UseFilters(new HttpExceptionFilter())
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
