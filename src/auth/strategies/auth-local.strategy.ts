@@ -3,7 +3,7 @@ import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { AuthService } from '../auth.service';
 import { HttpExceptionFilter } from 'src/commons/filters/http-exception/http-exception.filter';
-import { AlreadyUserExistException } from 'src/users/users.exception';
+import { UnableLoginException } from 'src/users/users.exception';
 
 @UseFilters(HttpExceptionFilter)
 @Injectable()
@@ -15,7 +15,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
   async validate(email: string, password: string): Promise<any> {
     const user = await this.authService.validateUser(email, password);
     if (!user) {
-      throw new AlreadyUserExistException();
+      throw new UnableLoginException();
     }
     return user;
   }
