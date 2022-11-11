@@ -15,7 +15,7 @@ import { MarketsService } from './markets.service';
 import { CreateMarketDto } from './dto/create-market.dto';
 import { UpdateMarketDto } from './dto/update-market.dto';
 import { MarketCustomException } from './market-exception';
-import { HttpExceptionFilter } from 'src/commons/filters/http-exception/http-exception.filter';
+import { HttpExceptionFilter } from '../commons/filters/http-exception/http-exception.filter';
 
 import { Logger, LoggerService } from '@nestjs/common';
 

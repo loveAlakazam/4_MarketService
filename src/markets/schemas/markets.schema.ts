@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
-import { Product } from 'src/products/schemas/product.schema';
-import { User } from 'src/users/schemas/user.schema';
+import { Product } from '../../products/schemas/product.schema';
+import { User } from '../../users/schemas/user.schema';
 
 export type MarketDocument = Market & mongoose.Document;
 

@@ -4,8 +4,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { AlreadyUserExistException } from 'src/users/users.exception';
-import { UsersRepository } from 'src/users/users.repository';
+import { AlreadyUserExistException } from '../users/users.exception';
+import { UsersRepository } from '../users/users.repository';
 import { SignUpDto } from './dto/sign-up.dto';
 import * as bcrypt from 'bcrypt';
 

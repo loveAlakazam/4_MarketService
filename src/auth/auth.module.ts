@@ -3,12 +3,12 @@ import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
-import { HttpExceptionFilter } from 'src/commons/filters/http-exception/http-exception.filter';
+import { HttpExceptionFilter } from '../commons/filters/http-exception/http-exception.filter';
 import { AuthController } from './auth.controller';
-import { UsersRepository } from 'src/users/users.repository';
+import { UsersRepository } from '../users/users.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LocalStrategy } from './strategies/auth-local.strategy';
-import { User, UserSchema } from 'src/users/schemas/user.schema';
+import { User, UserSchema } from '../users/schemas/user.schema';
 import { SessionSerializer } from './sessions/auth.session.serializer';
 
 @Module({

@@ -11,7 +11,7 @@ import {
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { HttpExceptionFilter } from 'src/commons/filters/http-exception/http-exception.filter';
+import { HttpExceptionFilter } from '../commons/filters/http-exception/http-exception.filter';
 
 @UseFilters(new HttpExceptionFilter())
 @Controller('products')

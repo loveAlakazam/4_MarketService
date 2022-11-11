@@ -8,7 +8,7 @@ import {
   UseGuards,
   Req,
 } from '@nestjs/common';
-import { HttpExceptionFilter } from 'src/commons/filters/http-exception/http-exception.filter';
+import { HttpExceptionFilter } from '../commons/filters/http-exception/http-exception.filter';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { AuthenticatedGuard, LocalAuthGuard } from './guards/local-auth.guard';

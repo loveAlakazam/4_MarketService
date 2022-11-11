@@ -13,9 +13,8 @@ import { UsersService } from './users.service';
 import {
   AuthenticatedGuard,
   UserNotSellerGuard,
-} from 'src/auth/guards/local-auth.guard';
-import { User } from 'src/auth/decorators/auth.decorator';
-import { UserDocument } from './schemas/user.schema';
+} from '../auth/guards/local-auth.guard';
+import { User } from '../auth/decorators/auth.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -28,8 +27,11 @@ export class UsersController {
    */
   @UseGuards(UserNotSellerGuard)
   @Patch('seller')
-  async enrollSeller(@User() user) {
-    this.usersService.updateUserInfo(user._id, { isSeller: true });
+  async enrollSeller(@User() user, @Body() enrollSellerDto) {
+    this.usersService.updateUserInfo(user._id, {
+      ...enrollSellerDto,
+      isSeller: true,
+    });
   }
 
   /**

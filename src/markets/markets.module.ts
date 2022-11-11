@@ -2,10 +2,10 @@ import { Logger, Module } from '@nestjs/common';
 import { MarketsService } from './markets.service';
 import { MarketsController } from './markets.controller';
 import { APP_FILTER } from '@nestjs/core';
-import { HttpExceptionFilter } from 'src/commons/filters/http-exception/http-exception.filter';
+import { HttpExceptionFilter } from '../commons/filters/http-exception/http-exception.filter';
 import { Market, MarketSchema } from './schemas/markets.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Product, ProductSchema } from 'src/products/schemas/product.schema';
+import { Product, ProductSchema } from '../products/schemas/product.schema';
 import { MarketsRepository } from './markets.repository';
 
 @Module({

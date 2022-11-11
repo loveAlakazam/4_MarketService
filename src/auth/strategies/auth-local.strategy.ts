@@ -2,8 +2,8 @@ import { Injectable, UnauthorizedException, UseFilters } from '@nestjs/common';
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { AuthService } from '../auth.service';
-import { HttpExceptionFilter } from 'src/commons/filters/http-exception/http-exception.filter';
-import { UnableLoginException } from 'src/users/users.exception';
+import { HttpExceptionFilter } from '../../commons/filters/http-exception/http-exception.filter';
+import { UnableLoginException } from '../../users/users.exception';
 
 @UseFilters(HttpExceptionFilter)
 @Injectable()
