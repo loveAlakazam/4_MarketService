@@ -1,9 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import {
   AuthenticatedGuard,
+  LocalAuthGuard,
   UserNotSellerGuard,
 } from '../../auth/guards/local-auth.guard';
 import { UsersController } from '../users.controller';
@@ -12,6 +14,12 @@ import { UsersService } from '../users.service';
 import { User, UserDocument, UserSchema } from '../schemas/user.schema';
 import { AuthModule } from '../../auth/auth.module';
 import * as request from 'supertest';
+import { UsersModule } from '../users.module';
+import * as session from 'express-session';
+import * as passport from 'passport';
+import { AuthController } from '../../auth/auth.controller';
+import { AuthService } from '../../auth/auth.service';
+const { SESSION_ID, COOKIE_SECRET } = process.env;
 
 describe('UsersController', () => {
   let app: INestApplication;
@@ -19,9 +27,21 @@ describe('UsersController', () => {
   let userService: UsersService;
   let userRepository: UsersRepository;
 
+  const mockRepository = {
+    find: jest.fn(),
+    findById: jest.fn(),
+    findOne: jest.fn(),
+    save: jest.fn(() => true),
+    findByIdAndUpdate: jest.fn(),
+    findByIdAndDelete: jest.fn(),
+    create: jest.fn(),
+    exec: jest.fn(() => true),
+  };
+  const mockGuards = { CanActivate: jest.fn(() => true) };
+
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      controllers: [UsersController],
+      controllers: [UsersController, AuthController],
       providers: [
         UsersService,
         UsersRepository,
@@ -29,20 +49,24 @@ describe('UsersController', () => {
           provide: getModelToken(User.name),
           // eslint-disable-next-line @typescript-eslint/no-empty-function
 
-          useValue: {
-            find: jest.fn(),
-            findById: jest.fn(),
-            findOne: jest.fn(),
-            save: jest.fn(),
-            findByIdAndUpdate: jest.fn(),
-            findByIdAndDelete: jest.fn(),
-            create: jest.fn(),
-          },
+          useValue: mockRepository,
         },
+        LocalAuthGuard,
+        UserNotSellerGuard,
+        AuthService,
       ],
-    }).compile();
+    })
+      .overrideGuard(LocalAuthGuard)
+      .useValue(mockGuards)
+      .overrideGuard(UserNotSellerGuard)
+      .useValue(mockGuards)
+      .compile();
 
     app = moduleFixture.createNestApplication();
+    app.setGlobalPrefix('/api');
+    app.useGlobalPipes(
+      new ValidationPipe({ transform: true, whitelist: true }),
+    );
     await app.init();
 
     userController = moduleFixture.get<UsersController>(UsersController);
@@ -90,14 +114,66 @@ describe('UsersController', () => {
     return sellerInfo;
   };
 
-  describe('enrollSeller', () => {
-    it('비회원 유저 요청시 404 에러', async () => {
+  // 유저 회원가입
+  describe('signUp', () => {
+    it('should be signUp', async () => {
+      const password = 'bank2Brothers@';
       const agent = request.agent(app.getHttpServer());
 
       await agent
-        .patch('/api/users/seller')
-        .send({ sellerName: '기스깅' })
-        .expect(404);
+        .post('/api/auth/sign-up')
+        .send({
+          email: 'giseok@bankb.io',
+          name: '이기석',
+          phoneNumber: '010-7777-7777',
+          password: password,
+        })
+        .expect(201); //201 <- error발생
     });
   });
+
+  // 유저 로그인
+  describe('signIn', () => {
+    it('should be signIn', async () => {
+      const agent = request.agent(app.getHttpServer());
+
+      await agent
+        .post('/api/auth/sign-in')
+        .send({
+          email: 'giseok@bankb.io',
+          password: 'bank2Brothers@',
+        })
+        .expect(201); // <- error (201)
+    });
+  });
+
+  // 셀러 등록 테스트
+
+  describe('enrollSeller', () => {
+    describe('it should be 403', () => {
+      let agent;
+      beforeEach(async () => {
+        // 유저 로그인
+        agent = request.agent(app.getHttpServer());
+        await agent
+          .post('/api/auth/sign-in')
+          .send({
+            email: 'giseok@bankb.io',
+            password: 'bank2Brothers@',
+          })
+          .expect(201); // < - error(201)
+      });
+
+      it('should be update to sellerUser', async () => {
+        await agent
+          .patch('/api/users/seller')
+          .send({ sellerName: '기스깅' })
+          .expect(200);
+      });
+    });
+  });
+
+  // describe('enrollSeller', () => {
+  //   beforeEach(async () => {});
+  // });
 });
