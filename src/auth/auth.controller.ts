@@ -13,6 +13,7 @@ import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { AuthenticatedGuard, LocalAuthGuard } from './guards/local-auth.guard';
 import { User } from './decorators/auth.decorator';
+import { UserDocument } from '../users/schemas/user.schema';
 
 @UseFilters(HttpExceptionFilter)
 @Controller('auth')
@@ -34,7 +35,7 @@ export class AuthController {
    */
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
-  async signIn(@User() user): Promise<void> {}
+  async signIn(): Promise<void> {}
 
   /**
    * @url [GET] /api/auth/sign-out
