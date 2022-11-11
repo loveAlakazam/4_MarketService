@@ -3,7 +3,7 @@ import {
   EMAIL_REGEXP,
   MOBILE_PHONE_REGEXP,
   PASSWORD_REGEXP,
-} from 'src/commons/regexps/regexp';
+} from '../../commons/regexps/regexp';
 
 export class SignUpDto {
   @IsString()
