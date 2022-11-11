@@ -28,7 +28,7 @@ export class UsersController {
   @UseGuards(UserNotSellerGuard)
   @Patch('seller')
   async enrollSeller(@User() user, @Body() enrollSellerDto) {
-    this.usersService.updateUserInfo(user._id, {
+    this.usersService.updateUserInfo(user?._id, {
       ...enrollSellerDto,
       isSeller: true,
     });
