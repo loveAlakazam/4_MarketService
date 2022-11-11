@@ -40,7 +40,8 @@ export class AuthService {
     const isSuccessSignIn = await bcrypt.compare(password, user.password);
     if (isSuccessSignIn) {
       // 로그인 성공 : 비밀번호를 제외한 나머지를 리턴
-      const { password, ...userWithoutPassword } = user;
+      const { _id, name, email, phoneNumber, isSeller } = user;
+      const userWithoutPassword = { _id, name, email, phoneNumber, isSeller };
       return userWithoutPassword;
     }
 
