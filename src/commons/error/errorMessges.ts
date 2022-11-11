@@ -1,5 +1,9 @@
 export const Err = {
   USER: {
+    LOGIN_FAILED: {
+      code: 401,
+      message: '아이디와 비밀번호가 일치하지 않습니다.',
+    },
     NOT_FOUND: {
       code: 404,
       message: '존재하지 않는 사용자 입니다.',
