@@ -25,6 +25,20 @@ export class AuthenticatedGuard implements CanActivate {
 }
 
 @Injectable()
+export class UserNotSellerGuard implements CanActivate {
+  async canActivate(context: ExecutionContext): Promise<any> {
+    const request = context.switchToHttp().getRequest();
+    const user = request?.session?.passport?.user;
+
+    return this.isUserNotEnrolledSeller(user);
+  }
+
+  isUserNotEnrolledSeller(user) {
+    return user.isSeller === false;
+  }
+}
+
+@Injectable()
 export class SellerGuard implements CanActivate {
   /**
    * 세션에 유저정보를 확인하여 현재 세션에 저장된 유저정보가 Seller계정인지 확인
@@ -33,10 +47,10 @@ export class SellerGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request?.session?.passport?.user;
 
-    return this.isSellerUser(user);
+    return this.isSeller(user);
   }
 
-  isSellerUser(user: UserDocument): boolean {
-    return user?.isSeller;
+  isSeller(user) {
+    return user.isSeller === true;
   }
 }
