@@ -46,9 +46,9 @@ export class Product {
   buyCountry: string; //구매국가
 
   @Prop({ required: true })
-  category: string[]; //카테고리
+  category: string; //카테고리
 
-  @Prop()
+  @Prop({ required: true })
   price: number; // 가격
 
   @Prop()
