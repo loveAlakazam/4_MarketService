@@ -1,8 +1,20 @@
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { User } from '../schemas/user.schema';
 import { UsersRepository } from '../users.repository';
 import { UsersService } from '../users.service';
+import { User, UserDocument } from '../schemas/user.schema';
+import * as bcrypt from 'bcrypt';
+
+const modekDataSource = () => ({});
+const mockRepository = {
+  find: jest.fn(),
+  findById: jest.fn(),
+  findOne: jest.fn(),
+  save: jest.fn(),
+  findByIdAndUpdate: jest.fn(),
+  findByIdAndDelete: jest.fn(),
+  create: jest.fn(),
+};
 
 describe('UsersService', () => {
   let userService: UsersService;
@@ -17,6 +29,7 @@ describe('UsersService', () => {
           provide: getModelToken(User.name),
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           useFactory: () => {},
+          useValue: mockRepository,
         },
       ],
     }).compile();
