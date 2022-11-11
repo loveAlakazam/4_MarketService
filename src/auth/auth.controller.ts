@@ -3,12 +3,10 @@ import {
   Body,
   Controller,
   Get,
-  HttpStatus,
   Post,
-  Response,
   UseFilters,
   UseGuards,
-  Request,
+  Req,
 } from '@nestjs/common';
 import { HttpExceptionFilter } from 'src/commons/filters/http-exception/http-exception.filter';
 import { AuthService } from './auth.service';
@@ -42,7 +40,9 @@ export class AuthController {
    * @url [GET] /api/auth/sign-out
    * @description: 로그아웃
    */
-  //   @UseGuards(AuthenticatedGuard)
+  @UseGuards(AuthenticatedGuard)
   @Get('sign-out')
-  async signOut() {}
+  async signOut(@Req() req) {
+    req.session.destroy();
+  }
 }
