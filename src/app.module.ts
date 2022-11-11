@@ -15,6 +15,8 @@ import {
 
 import * as winston from 'winston';
 import { AuthModule } from './auth/auth.module';
+import { UsersService } from './users/users.service';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     MarketsModule,
     ProductsModule,
+
+    /*
     WinstonModule.forRoot({
       transports: [
         new winston.transports.Console({
@@ -41,11 +45,12 @@ import { AuthModule } from './auth/auth.module';
         }),
       ],
     }),
+    */
     ConfigModule,
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UsersService, AuthService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
