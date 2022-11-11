@@ -23,27 +23,11 @@ import { Logger, LoggerService } from '@nestjs/common';
 @UseFilters(new HttpExceptionFilter())
 @Controller('markets')
 export class MarketsController {
-  constructor(
-    private readonly marketsService: MarketsService,
-    @Inject(Logger) private readonly logger: LoggerService,
-  ) {}
+  constructor(private readonly marketsService: MarketsService) {}
 
   @Post()
   create(@Body() createMarketDto: CreateMarketDto) {
-    this.printLoggerServiceLog(createMarketDto);
-  }
-
-  private printLoggerServiceLog(dto) {
-    try {
-      throw new InternalServerErrorException('test');
-    } catch (e) {
-      this.logger.error('ERROR: ' + JSON.stringify(dto), e.stack);
-    } finally {
-      this.logger.warn('WARN:' + JSON.stringify(dto));
-      this.logger.log('log: ' + JSON.stringify(dto));
-      this.logger.verbose('VERBOSE: ' + JSON.stringify(dto));
-      this.logger.debug('DEBUG: ' + JSON.stringify(dto));
-    }
+    return;
   }
 
   @Get()
