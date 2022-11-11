@@ -13,6 +13,11 @@ export class AlreadyUserExistException extends BadRequestException {
   }
 }
 
+export class AlreadyEnrolledSellerException extends BadRequestException {
+  constructor() {
+    super(Err.USER.DONT_ENROLL_SELLER_AGAIN);
+  }
+}
 export class FailedAuthenticationException extends UnauthorizedException {
   constructor() {
     super(Err.USER.NOT_FOUND);
