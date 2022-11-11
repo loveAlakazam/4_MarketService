@@ -1,14 +1,15 @@
 import { ValidationPipe } from '@nestjs/common';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
-import { AllExceptionsFilter } from './filters/all-exceptions/all-exceptions.filter';
+import { AllExceptionsFilter } from './commons/filters/all-exceptions/all-exceptions.filter';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './filters/http-exception/http-exception.filter';
+import { HttpExceptionFilter } from './commons/filters/http-exception/http-exception.filter';
 import {
   WINSTON_MODULE_NEST_PROVIDER,
   WinstonModule,
   utilities as nestWinstonModuleUtilities,
 } from 'nest-winston';
 import * as winston from 'winston';
+import { sessionConfig } from './auth/sessions/auth.session.config';
 
 async function bootstrap() {
   /*
@@ -33,12 +34,18 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
+  // URL의 최상단을 /api 로 한다.
+  app.setGlobalPrefix('/api');
+
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
   app.useGlobalPipes(new ValidationPipe());
 
   // WinstonLogger 전역 스코프에 적용
-  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+  // app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+
+  // 세션적용
+  sessionConfig(app);
 
   // HttpExceptionFilter을 전역 스코프에 적용.
   app.useGlobalFilters(new HttpExceptionFilter());
