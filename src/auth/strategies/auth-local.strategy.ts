@@ -1,8 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, UseFilters } from '@nestjs/common';
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { AuthService } from '../auth.service';
+import { HttpExceptionFilter } from 'src/commons/filters/http-exception/http-exception.filter';
+import { AlreadyUserExistException } from 'src/users/users.exception';
 
+@UseFilters(HttpExceptionFilter)
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
   constructor(private readonly authService: AuthService) {
@@ -12,7 +15,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
   async validate(email: string, password: string): Promise<any> {
     const user = await this.authService.validateUser(email, password);
     if (!user) {
-      throw new UnauthorizedException('아이디와 비밀번호가 일치하지 않습니다.');
+      throw new AlreadyUserExistException();
     }
     return user;
   }
