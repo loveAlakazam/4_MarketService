@@ -16,6 +16,10 @@ export const Err = {
       code: 400,
       message: '이미 존재하는 셀러 입니다.',
     },
+    DONT_ENROLL_SELLER_AGAIN: {
+      code: 400,
+      message: '이미 셀러로 등록했습니다.',
+    },
   },
   PRODUCT: {
     NOT_FOUND: {
