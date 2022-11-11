@@ -14,8 +14,8 @@ export class UsersRepository {
    * @param email
    * @returns
    */
-  async checkExistUserByEmail(email: string): Promise<UserDocument> {
-    const user = await this.userModel.findOne({ email: email }).exec();
+  async checkExistUserByEmail(email: string) {
+    const user = await this.userModel.findOne({ email: email });
     return user;
   }
 
@@ -30,33 +30,33 @@ export class UsersRepository {
       ...signUpDto,
       password: hashedPassword,
     });
-
-    return createdUser.save();
+    return createdUser;
   }
 
   /**
    * 유저 아이디 조회
    */
-  async findUserById(userId: string): Promise<UserDocument> {
+  async findUserById(userId: string) {
     const user = await this.userModel.findById(userId).exec();
     return user;
   }
 
   // 모든 유저 조회
-  async findAllUsers(): Promise<UserDocument[]> {
+  async findAllUsers() {
     return this.userModel.find();
   }
 
   // 유저정보수정
-  async updateUserInfo(
-    id: string,
-    updateUserDto: UpdateUserDto,
-  ): Promise<UserDocument> {
-    return this.userModel.findByIdAndUpdate(id, updateUserDto).exec();
+  async updateUserInfo(id: string, updateUserDto: UpdateUserDto) {
+    try {
+      return this.userModel.findByIdAndUpdate(id, updateUserDto);
+    } catch (error) {
+      throw new error();
+    }
   }
 
   // 유저삭제
-  async removeUser(id: string): Promise<UserDocument> {
+  async removeUser(id: string) {
     return this.userModel.findByIdAndDelete(id).exec();
   }
 
