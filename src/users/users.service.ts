@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { User, UserDocument } from 'src/users/schemas/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(private readonly repository: UsersRepository) {}
+
+  // 모든 유저 검색
+  async findAllUsers() {
+    return await this.repository.findAllUsers();
   }
 
-  findAll() {
-    return `This action returns all users`;
+  // 이메일 로 유저검색
+  async findUserByEmail(email: string) {
+    return await this.repository.checkExistUserByEmail(email);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  // 유저아이디(_id) 로 유저검색
+  async findUserById(userId: string): Promise<UserDocument> {
+    return await this.repository.findUserById(userId);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  // 회원정보 수정
+  async updateUserInfo(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UserDocument> {
+    return await this.repository.updateUserInfo(id, updateUserDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async removeUser(id: string): Promise<UserDocument> {
+    return await this.repository.removeUser(id);
   }
 }
