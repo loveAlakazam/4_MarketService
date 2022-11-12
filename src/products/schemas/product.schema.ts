@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { User } from '../../users/schemas/user.schema';
+import { PRODUCT_CATEGORIES } from '../enums/categories';
+import { PRODUCT_COUNTRIES } from '../enums/countries';
 
 export type ProductDocument = Product & mongoose.Document;
 
@@ -19,33 +21,16 @@ export class Product {
 
   @Prop({
     required: true,
-    default: '기타',
-    enum: [
-      '기타',
-      '한국',
-      '미국',
-      '일본',
-      '독일',
-      '프랑스',
-      '이탈리아',
-      '영국',
-      '아일랜드',
-      '태국',
-      '중국',
-      '러시아',
-      '노르웨이',
-      '캐나다',
-      '기타',
-      '몽골',
-      '베트남',
-      '싱가폴',
-      '터키',
-      '브라질',
-    ],
+    default: PRODUCT_COUNTRIES.ETC,
+    enum: PRODUCT_COUNTRIES,
   })
   buyCountry: string; //구매국가
 
-  @Prop({ required: true })
+  @Prop({
+    required: true,
+    default: PRODUCT_CATEGORIES.NO,
+    enum: PRODUCT_CATEGORIES,
+  })
   category: string; //카테고리
 
   @Prop({ required: true })
