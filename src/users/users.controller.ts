@@ -41,6 +41,6 @@ export class UsersController {
   @UseGuards(AuthenticatedGuard)
   @Get('profile')
   async getUserInfo(@User() user) {
-    return this.usersService.findUserById(user._id);
+    return this.usersService.findUserById(user?._id);
   }
 }
