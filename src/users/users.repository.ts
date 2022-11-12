@@ -37,7 +37,7 @@ export class UsersRepository {
    * 유저 아이디 조회
    */
   async findUserById(userId: string) {
-    const user = await this.userModel.findById(userId).exec();
+    const user = await this.userModel.findById(userId);
     return user;
   }
 
