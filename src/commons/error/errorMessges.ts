@@ -26,5 +26,14 @@ export const Err = {
       code: 404,
       message: '존재하지 않는 상품 입니다.',
     },
+    NOT_ALLOW_COUNTRY: {
+      code: 400,
+      message: '올바르지 않은 구매 국가 입니다.',
+    },
+    NOT_ALLOW_CATEGORY: {
+      code: 400,
+      message: '올바르지 않은 카테고리 입니다.',
+    },
   },
+  MARKET: {},
 };
