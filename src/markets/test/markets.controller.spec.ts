@@ -6,6 +6,8 @@ import { MarketsService } from '../markets.service';
 import { Market } from '../schemas/markets.schema';
 import { Product } from '../../products/schemas/product.schema';
 import { ProductsRepository } from '../../products/products.repository';
+import { UsersRepository } from '../../users/users.repository';
+import { User } from '../../users/schemas/user.schema';
 
 describe('MarketsController', () => {
   let controller: MarketsController;
@@ -19,6 +21,7 @@ describe('MarketsController', () => {
         MarketsService,
         MarketsRepository,
         ProductsRepository,
+        UsersRepository,
         {
           provide: getModelToken(Market.name),
           // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -26,6 +29,11 @@ describe('MarketsController', () => {
         },
         {
           provide: getModelToken(Product.name),
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          useFactory: () => {},
+        },
+        {
+          provide: getModelToken(User.name),
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           useFactory: () => {},
         },

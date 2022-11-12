@@ -3,8 +3,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { MarketsService } from '../markets.service';
 import { MarketsRepository } from '../markets.repository';
 import { ProductsRepository } from '../../products/products.repository';
+import { UsersRepository } from '../../users/users.repository';
 import { Market } from '../schemas/markets.schema';
 import { Product } from '../../products/schemas/product.schema';
+import { User } from '../../users/schemas/user.schema';
 
 describe('MarketsService', () => {
   let service: MarketsService;
@@ -16,6 +18,7 @@ describe('MarketsService', () => {
         MarketsService,
         MarketsRepository,
         ProductsRepository,
+        UsersRepository,
         {
           provide: getModelToken(Market.name),
           // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -23,6 +26,11 @@ describe('MarketsService', () => {
         },
         {
           provide: getModelToken(Product.name),
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          useFactory: () => {},
+        },
+        {
+          provide: getModelToken(User.name),
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           useFactory: () => {},
         },
