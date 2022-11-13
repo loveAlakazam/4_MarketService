@@ -1,9 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@src/*": ["./src/*"],
-      "@auth/*": ["./src/auth/*"]
-    }
+    "baseUrl": "./"
   }
 }

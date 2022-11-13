@@ -10,26 +10,14 @@ import { User } from '../../users/schemas/user.schema';
 describe('ProductsService', () => {
   let productService: ProductsService;
   let productRepository: ProductsRepository;
-  let marketRepository: MarketsRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ProductsService,
         ProductsRepository,
-        MarketsRepository,
         {
           provide: getModelToken(Product.name),
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          useFactory: () => {},
-        },
-        {
-          provide: getModelToken(Market.name),
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          useFactory: () => {},
-        },
-        {
-          provide: getModelToken(User.name),
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           useFactory: () => {},
         },
@@ -40,7 +28,6 @@ describe('ProductsService', () => {
     productRepository = await module.get<ProductsRepository>(
       ProductsRepository,
     );
-    marketRepository = await module.get<MarketsRepository>(MarketsRepository);
   });
 
   it('should be defined', () => {

@@ -13,9 +13,9 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { HttpExceptionFilter } from '../commons/filters/http-exception/http-exception.filter';
-import { User } from '@src/auth/decorators/auth.decorator';
-import { UserDocument } from '@src/users/schemas/user.schema';
-import { SellerGuard } from '@src/auth/guards/local-auth.guard';
+import { User } from '../auth/decorators/auth.decorator';
+import { UserDocument } from '../users/schemas/user.schema';
+import { SellerGuard } from '../auth/guards/local-auth.guard';
 
 @UseFilters(new HttpExceptionFilter())
 @Controller('products')

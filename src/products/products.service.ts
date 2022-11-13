@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { NotFoundSellerException } from '@src/users/users.exception';
-import { UsersRepository } from '@src/users/users.repository';
+import { NotFoundSellerException } from '../users/users.exception';
+import { UsersRepository } from '../users/users.repository';
 import { MarketsRepository } from '../markets/markets.repository';
 import { UserDocument } from '../users/schemas/user.schema';
 import { CreateProductDto } from './dto/create-product.dto';

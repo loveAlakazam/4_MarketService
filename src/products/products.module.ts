@@ -9,7 +9,7 @@ import { MarketsRepository } from '../markets/markets.repository';
 import { Product, ProductSchema } from './schemas/product.schema';
 import { Market, MarketSchema } from '../markets/schemas/markets.schema';
 import { User, UserSchema } from '../users/schemas/user.schema';
-import { UsersRepository } from '@src/users/users.repository';
+import { UsersRepository } from '../users/users.repository';
 
 @Module({
   imports: [

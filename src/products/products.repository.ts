@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Product, ProductDocument } from './schemas/product.schema';
 import { Model } from 'mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
-import { Market, MarketDocument } from '@src/markets/schemas/markets.schema';
-import { User, UserDocument } from '@src/users/schemas/user.schema';
+import { Market, MarketDocument } from '../markets/schemas/markets.schema';
+import { User, UserDocument } from '../users/schemas/user.schema';
 
 @Injectable()
 export class ProductsRepository {
