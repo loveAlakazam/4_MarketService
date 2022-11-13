@@ -25,7 +25,6 @@ import { UsersRepository } from '../users/users.repository';
     ProductsService,
     ProductsRepository,
     MarketsRepository,
-    UsersRepository,
     { provide: APP_FILTER, useClass: HttpExceptionFilter },
   ],
 })

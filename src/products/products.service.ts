@@ -16,7 +16,6 @@ export class ProductsService {
   // ProductsRepository 주입
   constructor(
     private readonly repository: ProductsRepository,
-    private readonly userRepository: UsersRepository,
     private readonly marketRepository: MarketsRepository,
   ) {}
 
