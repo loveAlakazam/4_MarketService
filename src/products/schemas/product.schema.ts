@@ -26,6 +26,15 @@ export class Product {
   })
   buyCountry: string; //구매국가
 
+  /**
+   * 구매지역
+   * - null: 전지역
+   */
+  @Prop({
+    default: null,
+  })
+  buyLocation: string; // 구매지역
+
   @Prop({
     required: true,
     default: PRODUCT_CATEGORIES.NO,
@@ -39,13 +48,17 @@ export class Product {
   @Prop()
   description: string; //설명글
 
+  /**
+   * 주문마감일
+   * - null : 마감기한이 없음.
+   */
   @Prop({ default: null })
   closeDate: Date; //주문마감일
 
-  @Prop({ default: Date.now })
+  @Prop({ default: Date.now() })
   createdAt: Date; // 등록일
 
-  @Prop()
+  @Prop({ default: null })
   deletedAt: Date; // 삭제일
 }
 
