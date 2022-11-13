@@ -49,7 +49,7 @@ export class UsersRepository {
   // 유저정보수정
   async updateUserInfo(id: string, updateUserDto: UpdateUserDto) {
     try {
-      return this.userModel.findByIdAndUpdate(id, updateUserDto);
+      return this.userModel.updateOne({ _id: id }, { ...updateUserDto });
     } catch (error) {
       throw new error();
     }

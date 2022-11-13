@@ -15,6 +15,7 @@ import {
   UserNotSellerGuard,
 } from '../auth/guards/local-auth.guard';
 import { User } from '../auth/decorators/auth.decorator';
+import { EnrollSellerDto } from './dto/enroll-seller.dto';
 
 @Controller('users')
 export class UsersController {
@@ -27,7 +28,7 @@ export class UsersController {
    */
   @UseGuards(UserNotSellerGuard)
   @Patch('seller')
-  async enrollSeller(@User() user, @Body() enrollSellerDto) {
+  async enrollSeller(@User() user, @Body() enrollSellerDto: EnrollSellerDto) {
     this.usersService.updateUserInfo(user?._id, {
       ...enrollSellerDto,
       isSeller: true,
