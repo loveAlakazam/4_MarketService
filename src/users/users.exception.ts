@@ -1,4 +1,8 @@
-import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Err } from '../commons/error/errorMessges';
 
 export class UnableLoginException extends UnauthorizedException {
@@ -21,5 +25,11 @@ export class AlreadyEnrolledSellerException extends BadRequestException {
 export class FailedAuthenticationException extends UnauthorizedException {
   constructor() {
     super(Err.USER.NOT_FOUND);
+  }
+}
+
+export class NotFoundSellerException extends NotFoundException {
+  constructor() {
+    super(Err.USER.NOT_FOUND_SELLER);
   }
 }

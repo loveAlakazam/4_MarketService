@@ -8,10 +8,16 @@ export type MarketDocument = Market & mongoose.Document;
 @Schema()
 export class Market {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  sellerId: User; // 판매자 아이디
+  seller: User; // 판매자 아이디
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
-  productId: Product; // 상품 아이디
+  product: Product; // 상품 아이디
+
+  @Prop({ default: Date.now })
+  createdAt: Date; //등록일
+
+  @Prop({ default: null })
+  deletedAt: Date; //삭제일
 }
 
 export const MarketSchema = SchemaFactory.createForClass(Market);

@@ -1,5 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { User } from '../../users/schemas/user.schema';
 
 @Injectable()
 export class LocalAuthGuard extends AuthGuard('local') {
@@ -31,8 +32,8 @@ export class UserNotSellerGuard implements CanActivate {
     return this.isUserNotEnrolledSeller(user);
   }
 
-  isUserNotEnrolledSeller(user) {
-    return user.isSeller === false;
+  isUserNotEnrolledSeller(user: User) {
+    return user?.isSeller === false;
   }
 }
 
@@ -48,7 +49,7 @@ export class SellerGuard implements CanActivate {
     return this.isSeller(user);
   }
 
-  isSeller(user) {
-    return user.isSeller === true;
+  isSeller(user: User) {
+    return user?.isSeller === true;
   }
 }

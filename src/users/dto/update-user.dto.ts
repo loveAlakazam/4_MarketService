@@ -1,10 +1,21 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateUserDto } from './create-user.dto';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class UpdateUserDto {
-  isSeller?: boolean;
-  sellerNickname?: string;
+  @IsBoolean()
+  isSeller: boolean;
+
+  @IsString()
+  sellerNickname: string;
+
+  @IsOptional()
+  @IsString()
   phoneNumber?: string;
+
+  @IsOptional()
+  @IsString()
   name?: string;
+
+  @IsOptional()
+  @IsString()
   password?: string;
 }

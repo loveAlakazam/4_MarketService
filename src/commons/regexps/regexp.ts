@@ -20,3 +20,10 @@ export const MOBILE_PHONE_REGEXP = /^\d{3}-\d{3,4}-\d{4}$/;
  */
 export const PASSWORD_REGEXP =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[a-zA-Z\d$@$!%*?&]{8,15}$/;
+
+/**
+ * 주문마감일 날짜 정규식
+ * - 형식: YYYY-mm-dd
+ * - 예시: 2022-12-25
+ */
+export const DATE_REGEX = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;

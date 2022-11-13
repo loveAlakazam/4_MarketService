@@ -21,19 +21,16 @@ export class UsersService {
   }
 
   // 유저아이디(_id) 로 유저검색
-  async findUserById(userId: string): Promise<UserDocument> {
+  async findUserById(userId: string) {
     return await this.repository.findUserById(userId);
   }
 
   // 회원정보 수정
-  async updateUserInfo(
-    id: string,
-    updateUserDto: UpdateUserDto,
-  ): Promise<UserDocument> {
+  async updateUserInfo(id: string, updateUserDto: UpdateUserDto) {
     return await this.repository.updateUserInfo(id, updateUserDto);
   }
 
-  async removeUser(id: string): Promise<UserDocument> {
+  async removeUser(id: string) {
     return await this.repository.removeUser(id);
   }
 }
