@@ -29,4 +29,5 @@ export enum PRODUCT_COUNTRIES {
   BE = '벨기에',
   NO = '노르웨이',
   TR = '터키',
+  IT = '이탈리아',
 }
