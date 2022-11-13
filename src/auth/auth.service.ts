@@ -8,6 +8,7 @@ import { AlreadyUserExistException } from '../users/users.exception';
 import { UsersRepository } from '../users/users.repository';
 import { SignUpDto } from './dto/sign-up.dto';
 import * as bcrypt from 'bcrypt';
+import { AccessUser } from './dto/access-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -40,8 +41,13 @@ export class AuthService {
     const isSuccessSignIn = await bcrypt.compare(password, user.password);
     if (isSuccessSignIn) {
       // 로그인 성공 : 비밀번호를 제외한 나머지를 리턴
-      const { _id, name, email, phoneNumber, isSeller } = user;
-      const userWithoutPassword = { _id, name, email, phoneNumber, isSeller };
+      const userWithoutPassword: AccessUser = {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        isSeller: user.isSeller,
+      };
       return userWithoutPassword;
     }
 
