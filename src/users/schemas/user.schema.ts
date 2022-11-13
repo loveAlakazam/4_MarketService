@@ -20,7 +20,7 @@ export class User {
   @Prop({ required: true, default: false })
   isSeller: boolean; // 셀러 회원 여부
 
-  @Prop()
+  @Prop({ default: null })
   sellerNickname: string; // 셀러 닉네임
 
   @Prop({ default: Date.now })
