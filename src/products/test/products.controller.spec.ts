@@ -19,8 +19,14 @@ describe('ProductsController', () => {
       providers: [
         ProductsService,
         ProductsRepository,
+        MarketsRepository,
         {
           provide: getModelToken(Product.name),
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          useFactory: () => {},
+        },
+        {
+          provide: getModelToken(Market.name),
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           useFactory: () => {},
         },
