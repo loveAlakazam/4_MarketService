@@ -31,6 +31,7 @@ describe('UsersController', () => {
     findByIdAndDelete: jest.fn(),
     create: jest.fn(),
     exec: jest.fn(() => true),
+    updateOne: jest.fn(),
   };
   const mockGuards = {
     CanActivate: jest.fn((request) => (request ? true : false)),
@@ -138,7 +139,7 @@ describe('UsersController', () => {
       it('should be update to sellerUser', async () => {
         await agent
           .patch('/api/users/seller')
-          .send({ sellerName: '기스깅' })
+          .send({ sellerNickname: '기스깅' })
           .expect(200);
       });
     });
