@@ -12,6 +12,12 @@ export class Market {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
   productId: Product; // 상품 아이디
+
+  @Prop({ default: Date.now })
+  createdAt: Date; //등록일
+
+  @Prop({ default: null })
+  deletedAt: Date; //삭제일
 }
 
 export const MarketSchema = SchemaFactory.createForClass(Market);
