@@ -4,7 +4,7 @@ import { Product, ProductDocument } from './schemas/product.schema';
 import { Model } from 'mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Market, MarketDocument } from '../markets/schemas/markets.schema';
-import { User, UserDocument } from '../users/schemas/user.schema';
+import { User } from '../users/schemas/user.schema';
 
 @Injectable()
 export class ProductsRepository {
@@ -14,10 +14,13 @@ export class ProductsRepository {
     private readonly productModel: Model<ProductDocument>,
   ) {}
 
-  async createProduct(user: UserDocument, createProductDto: CreateProductDto) {
+  async createProduct(
+    user: User,
+    createProductDto: CreateProductDto,
+  ): Promise<Product> {
     const newProduct = await this.productModel.create({
       ...createProductDto,
-      user: user._id,
+      user: user,
     });
 
     return newProduct;

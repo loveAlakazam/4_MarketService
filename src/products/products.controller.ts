@@ -14,7 +14,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { HttpExceptionFilter } from '../commons/filters/http-exception/http-exception.filter';
 import { User } from '../auth/decorators/auth.decorator';
-import { UserDocument } from '../users/schemas/user.schema';
+import { User as Users } from '../users/schemas/user.schema';
 import { SellerGuard } from '../auth/guards/local-auth.guard';
 
 @UseFilters(new HttpExceptionFilter())
@@ -29,7 +29,7 @@ export class ProductsController {
   @UseGuards(SellerGuard)
   @Post()
   async create(
-    @User() user: UserDocument,
+    @User() user: Users,
     @Body() createProductDto: CreateProductDto,
   ) {
     return await this.productsService.create(user, createProductDto);
@@ -43,7 +43,7 @@ export class ProductsController {
   @Patch(':id')
   async update(
     @Param('id') id: string,
-    @User() user: UserDocument,
+    @User() user: Users,
     @Body() updateProductDto: UpdateProductDto,
   ) {
     return await this.productsService.update(user, id, updateProductDto);
@@ -55,7 +55,7 @@ export class ProductsController {
    */
   @UseGuards(SellerGuard)
   @Delete(':id')
-  async remove(@Param('id') id: string, @User() user: UserDocument) {
+  async remove(@Param('id') id: string, @User() user: Users) {
     return await this.productsService.remove(user, id);
   }
 

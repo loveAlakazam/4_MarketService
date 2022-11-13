@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { NotFoundSellerException } from '../users/users.exception';
 import { UsersRepository } from '../users/users.repository';
 import { MarketsRepository } from '../markets/markets.repository';
-import { UserDocument } from '../users/schemas/user.schema';
+import { User } from '../users/schemas/user.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import {
@@ -19,7 +19,7 @@ export class ProductsService {
     private readonly marketRepository: MarketsRepository,
   ) {}
 
-  async create(user: UserDocument, createProductDto: CreateProductDto) {
+  async create(user: User, createProductDto: CreateProductDto) {
     try {
       // 상품을 등록한다.
       const newProduct = await this.repository.createProduct(
@@ -37,7 +37,7 @@ export class ProductsService {
     }
   }
 
-  private async checkSeller(user: UserDocument, productId: string) {
+  private async checkSeller(user: User, productId: string) {
     // 상품을 등록한 셀러아이디를 구한다.
     const product = await this.repository.findProductById(productId);
 
@@ -49,7 +49,7 @@ export class ProductsService {
     // 문자열로 변환시킨다.
     const sellerId = product.user;
     const sellerIdStr = sellerId.toString();
-    const userIdStr = user._id.toString();
+    const userIdStr = user.toString();
 
     // 로그인한 유저와 다른 셀러면 예외를 발생시킨다.
     if (sellerIdStr !== userIdStr) {
@@ -59,7 +59,7 @@ export class ProductsService {
   }
 
   async update(
-    user: UserDocument,
+    user: User,
     productId: string,
     updateProductDto: UpdateProductDto,
   ) {
@@ -74,7 +74,7 @@ export class ProductsService {
     }
   }
 
-  async remove(user: UserDocument, productId: string) {
+  async remove(user: User, productId: string) {
     try {
       // 로그인한 유저가 상품의 셀러와 동일한지 확인
       await this.checkSeller(user, productId);

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Market, MarketDocument } from './schemas/markets.schema';
-import { ProductDocument } from '../products/schemas/product.schema';
-import { UserDocument } from '../users/schemas/user.schema';
+import { Product, ProductDocument } from '../products/schemas/product.schema';
+import { User } from '../users/schemas/user.schema';
 
 @Injectable()
 export class MarketsRepository {
@@ -13,20 +13,20 @@ export class MarketsRepository {
     private readonly marketModel: Model<MarketDocument>,
   ) {}
 
-  async createMarketData(seller: UserDocument, product: ProductDocument) {
+  async createMarketData(seller: User, product: Product) {
     const newMarketData = await new this.marketModel({
-      seller: seller._id,
-      product: product._id,
+      seller: seller,
+      product: product,
     });
 
     await newMarketData.save();
     return newMarketData;
   }
 
-  async deleteMarketData(seller: UserDocument, productId: string) {
+  async deleteMarketData(seller: User, productId: string) {
     await this.marketModel
       .updateOne(
-        { product: productId, seller: seller._id },
+        { product: productId, seller: seller },
         { deletedAt: Date.now() },
       )
       .exec();
