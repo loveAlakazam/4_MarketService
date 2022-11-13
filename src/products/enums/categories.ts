@@ -8,7 +8,7 @@ export enum PRODUCT_CATEGORIES {
   CLOTHS = '의류',
   BAGS = '가방',
   ELECTRONICS = '전자제품',
-  GROCERIES = '음식',
+  GROCERIES = '식품',
   FURNITURES = '가구',
   BEAUTIES = '화장품',
   INTERIOR = '인테리어',
