@@ -6,10 +6,7 @@ import { MarketsRepository } from './markets.repository';
 
 @Injectable()
 export class MarketsService {
-  constructor(
-    private readonly repository: MarketsRepository,
-    private readonly productRepository: ProductsRepository,
-  ) {}
+  constructor(private readonly repository: MarketsRepository) {}
   create(createMarketDto: CreateMarketDto) {
     return 'This action adds a new market';
   }
