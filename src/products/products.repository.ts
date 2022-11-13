@@ -5,6 +5,8 @@ import { Model } from 'mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Market, MarketDocument } from '../markets/schemas/markets.schema';
 import { User } from '../users/schemas/user.schema';
+import { AccessUser } from 'src/auth/dto/access-user.dto';
+import { ProductInfo } from './dto/product-info.dto';
 
 @Injectable()
 export class ProductsRepository {
@@ -15,12 +17,12 @@ export class ProductsRepository {
   ) {}
 
   async createProduct(
-    user: User,
+    user: AccessUser,
     createProductDto: CreateProductDto,
   ): Promise<Product> {
     const newProduct = await this.productModel.create({
       ...createProductDto,
-      user: user,
+      user: user._id,
     });
 
     return newProduct;
@@ -33,8 +35,31 @@ export class ProductsRepository {
     );
   }
 
-  async findProductById(productId: string) {
-    return await this.productModel.findOne({ _id: productId, deletedAt: null });
+  async findProductById(productId: string): Promise<ProductInfo> {
+    const _product = await this.productModel.findOne({
+      _id: productId,
+      deletedAt: null,
+    });
+
+    // 검색조건에 부합하는 데이터가 존재
+    if (_product) {
+      const product: ProductInfo = {
+        _id: _product._id,
+        user: _product.user,
+        name: _product.name,
+        buyCountry: _product.buyCountry,
+        buyLocation: _product.buyLocation,
+        category: _product.category,
+        price: _product.price,
+        description: _product.description,
+        closeDate: _product.closeDate,
+        createdAt: _product.createdAt,
+      };
+
+      return product;
+    }
+
+    return _product;
   }
 
   async findSellerIdByProductId(productId: string) {
