@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { PassportSerializer } from '@nestjs/passport';
 import { Model } from 'mongoose';
 import { User } from '../../users/schemas/user.schema';
+import { AccessUser } from '../dto/access-user.dto';
 
 @Injectable()
 export class SessionSerializer extends PassportSerializer {
@@ -23,13 +24,20 @@ export class SessionSerializer extends PassportSerializer {
    */
   async deserializeUser(
     user: User,
-    done: (err, user: User) => void,
+    done: (err, user: AccessUser) => void,
   ): Promise<void> {
     // 세션에 저장되어있는 유저정보가 올바른 정보인지 확인
-    const userInfo = await this.userModel.findById(user);
+    const _userInfo = await this.userModel.findById(user);
 
     // 세션에 유저정보가 있다면 request.user 에 유저정보를 추가
-    if (userInfo) {
+    if (_userInfo) {
+      const userInfo: AccessUser = {
+        _id: _userInfo._id,
+        name: _userInfo.name,
+        email: _userInfo.email,
+        phoneNumber: _userInfo.phoneNumber,
+        isSeller: _userInfo.isSeller,
+      };
       return done(null, userInfo);
     }
 
