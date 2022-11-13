@@ -17,27 +17,7 @@ describe('MarketsController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [MarketsController],
-      providers: [
-        MarketsService,
-        MarketsRepository,
-        ProductsRepository,
-        UsersRepository,
-        {
-          provide: getModelToken(Market.name),
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          useFactory: () => {},
-        },
-        {
-          provide: getModelToken(Product.name),
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          useFactory: () => {},
-        },
-        {
-          provide: getModelToken(User.name),
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          useFactory: () => {},
-        },
-      ],
+      providers: [MarketsService, MarketsRepository],
     }).compile();
 
     controller = module.get<MarketsController>(MarketsController);
