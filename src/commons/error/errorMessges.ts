@@ -8,6 +8,10 @@ export const Err = {
       code: 404,
       message: '존재하지 않는 사용자 입니다.',
     },
+    NOT_FOUND_SELLER: {
+      code: 404,
+      message: '존재하지 않는 셀러 입니다.',
+    },
     EXIST_USER: {
       code: 400,
       message: '이미 존재하는 사용자 입니다.',
@@ -22,6 +26,10 @@ export const Err = {
     },
   },
   PRODUCT: {
+    NOT_ALLOW_WRITE_AUTH: {
+      code: 401,
+      message: '접근권한이 없습니다.',
+    },
     NOT_FOUND: {
       code: 404,
       message: '존재하지 않는 상품 입니다.',
