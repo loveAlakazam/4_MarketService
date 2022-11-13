@@ -12,8 +12,6 @@ import { HttpExceptionFilter } from '../commons/filters/http-exception/http-exce
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { AuthenticatedGuard, LocalAuthGuard } from './guards/local-auth.guard';
-import { User } from './decorators/auth.decorator';
-import { UserDocument } from '../users/schemas/user.schema';
 
 @UseFilters(HttpExceptionFilter)
 @Controller('auth')
