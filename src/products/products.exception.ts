@@ -1,4 +1,8 @@
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Err } from '../commons/error/errorMessges';
 
 // 상품 조회 불가 오류
@@ -19,5 +23,13 @@ export class BadCountryProductException extends BadRequestException {
 export class BadCategoryException extends BadRequestException {
   constructor() {
     super(Err.PRODUCT.NOT_ALLOW_CATEGORY);
+  }
+}
+
+// 로그인한 유저 셀러지만, 상품을 등록한 셀러와 다를경우
+// 상품 수정, 삭제 불가능
+export class NoAuthProductException extends UnauthorizedException {
+  constructor() {
+    super(Err.PRODUCT.NOT_ALLOW_WRITE_AUTH);
   }
 }
