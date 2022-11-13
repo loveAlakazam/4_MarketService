@@ -1,4 +1,12 @@
-import { IsString, IsNumber, IsEnum } from 'class-validator';
+import { DATE_REGEX } from '../../commons/regexps/regexp';
+import {
+  IsString,
+  IsNumber,
+  IsEnum,
+  IsOptional,
+  IsDateString,
+  Matches,
+} from 'class-validator';
 import { PRODUCT_CATEGORIES } from '../enums/categories';
 import { PRODUCT_COUNTRIES } from '../enums/countries';
 
@@ -20,5 +28,8 @@ export class CreateProductDto {
   @IsString()
   description: string; //상품요약설명
 
+  @IsOptional()
+  @IsDateString()
+  @Matches(DATE_REGEX)
   closeDate?: Date; // 주문마감일
 }
