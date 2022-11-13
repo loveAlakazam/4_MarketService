@@ -28,10 +28,7 @@ export class ProductsController {
    */
   @UseGuards(SellerGuard)
   @Post()
-  async create(
-    @User() user: Users,
-    @Body() createProductDto: CreateProductDto,
-  ) {
+  async create(@User() user, @Body() createProductDto: CreateProductDto) {
     return await this.productsService.create(user, createProductDto);
   }
 
@@ -43,7 +40,7 @@ export class ProductsController {
   @Patch(':id')
   async update(
     @Param('id') id: string,
-    @User() user: Users,
+    @User() user,
     @Body() updateProductDto: UpdateProductDto,
   ) {
     return await this.productsService.update(user, id, updateProductDto);
@@ -55,7 +52,7 @@ export class ProductsController {
    */
   @UseGuards(SellerGuard)
   @Delete(':id')
-  async remove(@Param('id') id: string, @User() user: Users) {
+  async remove(@Param('id') id: string, @User() user) {
     return await this.productsService.remove(user, id);
   }
 
