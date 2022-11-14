@@ -3,8 +3,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Product, ProductDocument } from './schemas/product.schema';
 import { Model } from 'mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
-import { AccessUser } from 'src/auth/dto/access-user.dto';
-import { ProductInfo } from './dto/product-info.dto';
+import { AccessUser } from '../auth/dto/access-user.dto';
+import { ProductInfo, ProductWithoutUserInfo } from './dto/product-info.dto';
+import {
+  ProductDetailInfoDto,
+  ProductSellerInfo,
+} from './dto/product-detail-info.dto';
 
 @Injectable()
 export class ProductsRepository {
@@ -88,7 +92,7 @@ export class ProductsRepository {
     return productList;
   }
 
-  async findOnePopulated(productId: string) {
+  async findOnePopulated(productId: string): Promise<ProductDetailInfoDto> {
     const productOne = await this.productModel
       .findOne({ _id: productId, deletedAt: null })
       .populate('user', [
@@ -100,6 +104,61 @@ export class ProductsRepository {
         'sellerNickname',
       ])
       .exec();
-    return productOne;
+
+    const {
+      user,
+      _id,
+      name,
+      buyCountry,
+      buyLocation,
+      category,
+      price,
+      description,
+      closeDate,
+      createdAt,
+    } = productOne;
+
+    const seller: ProductSellerInfo = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      isSeller: user.isSeller,
+      sellerNickname: user.sellerNickname,
+    };
+
+    const info: ProductWithoutUserInfo = {
+      _id: _id,
+      name: name,
+      buyCountry: buyCountry,
+      buyLocation: buyLocation,
+      category: category,
+      price: price,
+      description: description,
+      closeDate: closeDate,
+      createdAt: createdAt,
+    };
+
+    return { info: info, seller: seller };
+  }
+
+  async findSellerOtherProducts(
+    sellerId: string,
+    productId: string,
+  ): Promise<ProductInfo[]> {
+    const query = this.productModel.find({
+      deletedAt: null, // 삭제가 안된 상태
+      user: sellerId, // 셀러 아이디
+      _id: { $nin: [productId] }, // 조회아이디(productId) 외 셀러가 올린 다른 상품
+      $cond: {
+        if: { closeDate: !null }, // 주문마감일이 존재한다면
+        then: { closeDate: { $gte: new Date() } }, // 오늘보다 미래인지 체크
+        else: null,
+      },
+    });
+
+    const otherProducts = await query;
+
+    return otherProducts;
   }
 }
