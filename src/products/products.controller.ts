@@ -63,12 +63,17 @@ export class ProductsController {
    * 삭제된 상품은 조회할 수 없습니다.
    */
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    return await this.productsService.findOne(id);
   }
 
+  /**
+   * @url : [GET] /api/products/
+   * @description: 모든상품을 조회할 수 있습니다.
+   * @todo: pagination을 추가해봅시다.
+   */
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  async findAll() {
+    return await this.productsService.findAll();
   }
 }

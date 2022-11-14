@@ -1,10 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { User } from '../../users/schemas/user.schema';
+import { User, UserDocument } from '../../users/schemas/user.schema';
 import { PRODUCT_CATEGORIES } from '../enums/categories';
 import { PRODUCT_COUNTRIES } from '../enums/countries';
 
-export type ProductDocument = Product & mongoose.Document;
+export type ProductDocument = Product &
+  mongoose.Document & { user: UserDocument };
 
 @Schema()
 export class Product {
