@@ -3,8 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Product, ProductDocument } from './schemas/product.schema';
 import { Model } from 'mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
-import { Market, MarketDocument } from '../markets/schemas/markets.schema';
-import { User } from '../users/schemas/user.schema';
 import { AccessUser } from 'src/auth/dto/access-user.dto';
 import { ProductInfo } from './dto/product-info.dto';
 
@@ -77,7 +75,31 @@ export class ProductsRepository {
   async findAllProducts() {
     const productList = await this.productModel
       .find({ deletedAt: null })
+      .populate('user', [
+        '_id',
+        'name',
+        'email',
+        'phoneNumber',
+        'isSeller',
+        'sellerNickname',
+      ])
       .exec();
+
     return productList;
+  }
+
+  async findOnePopulated(productId: string) {
+    const productOne = await this.productModel
+      .findOne({ _id: productId, deletedAt: null })
+      .populate('user', [
+        '_id',
+        'name',
+        'email',
+        'phoneNumber',
+        'isSeller',
+        'sellerNickname',
+      ])
+      .exec();
+    return productOne;
   }
 }
