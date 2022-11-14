@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { NotFoundSellerException } from '../users/users.exception';
-import { UsersRepository } from '../users/users.repository';
 import { MarketsRepository } from '../markets/markets.repository';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -94,6 +92,23 @@ export class ProductsService {
   }
 
   async findOne(productId: string) {
-    return await this.repository.findOnePopulated(productId);
+    try {
+      // productId에 대한 상품정보와 셀러(판매자)정보를 받는다.
+      const productInfo = await this.repository.findOnePopulated(productId);
+
+      // 상품 셀러의 아이디
+      const sellerId = productInfo.seller._id.toString();
+
+      // 현재상품을(상품 _id가 productId인 상품) 제외한 셀러가 등록한 다른 상품 정보를 구한다.
+      const otherProducts = await this.repository.findSellerOtherProducts(
+        sellerId,
+        productId,
+      );
+
+      productInfo.others = otherProducts;
+      return productInfo;
+    } catch (error) {
+      throw error;
+    }
   }
 }
