@@ -93,7 +93,7 @@ export class ProductsService {
     return await this.repository.findAllProducts();
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} product`;
+  async findOne(productId: string) {
+    return await this.repository.findOnePopulated(productId);
   }
 }
