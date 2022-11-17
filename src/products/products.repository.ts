@@ -151,7 +151,7 @@ export class ProductsRepository {
       user: sellerId, // 셀러 아이디
       _id: { $nin: [productId] }, // 조회아이디(productId) 외 셀러가 올린 다른 상품
       $cond: {
-        if: { closeDate: !null }, // 주문마감일이 존재한다면
+        if: { $exists: { closeDate: { $neq: null } } }, // 주문마감일이 존재한다면
         then: { closeDate: { $gte: new Date() } }, // 오늘보다 미래인지 체크
         else: null,
       },

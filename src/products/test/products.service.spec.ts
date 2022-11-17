@@ -12,7 +12,6 @@ import { AccessUser } from '../../auth/dto/access-user.dto';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { HttpException } from '@nestjs/common';
 import { UpdateProductDto } from '../dto/update-product.dto';
-import { resourceLimits } from 'worker_threads';
 
 describe('ProductsService', () => {
   let productService: ProductsService;
