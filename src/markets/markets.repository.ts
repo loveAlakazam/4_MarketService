@@ -88,7 +88,7 @@ export class MarketsRepository {
       },
       {
         $match: {
-          // 상품은 삭제되지 않은 상태 (product.deletedAt !== null)
+          // 상품은 삭제되지 않은 상태 (삭제된 상태는 deletedAt 이 날짜로 표기됨)
           'product.deletedAt': null,
         },
       },
