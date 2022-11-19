@@ -58,8 +58,13 @@ export class UsersRepository {
   }
 
   // 유저삭제
-  async removeUser(id: string) {
-    return this.userModel.findByIdAndDelete(id).exec();
+  async leaveUser(id: string) {
+    return this.userModel
+      .findByIdAndUpdate(
+        { _id: id, deletedAt: null }, // 아직 탈퇴되지않은 회원
+        { deletedAt: new Date() },
+      )
+      .exec();
   }
 
   /**
