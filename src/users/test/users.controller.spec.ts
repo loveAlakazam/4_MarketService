@@ -1,18 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 import {
   AuthenticatedGuard,
   LocalAuthGuard,
   UserNotSellerGuard,
 } from '../../auth/guards/local-auth.guard';
+import * as request from 'supertest';
 import { UsersController } from '../users.controller';
 import { UsersRepository } from '../users.repository';
 import { UsersService } from '../users.service';
 import { User } from '../schemas/user.schema';
 import { AuthController } from '../../auth/auth.controller';
 import { AuthService } from '../../auth/auth.service';
-import * as request from 'supertest';
+import { Product } from '../../products/schemas/product.schema';
+import { Market } from '../../markets/schemas/markets.schema';
+import { ProductsRepository } from '../../products/products.repository';
+import { MarketsRepository } from '../../markets/markets.repository';
+import { HttpExceptionFilter } from '../../commons/filters/http-exception/http-exception.filter';
 
 const { SESSION_ID, COOKIE_SECRET } = process.env;
 
@@ -21,6 +27,8 @@ describe('UsersController', () => {
   let userController: UsersController;
   let userService: UsersService;
   let userRepository: UsersRepository;
+  let productRepository: ProductsRepository;
+  let marketRepository: MarketsRepository;
 
   const mockRepository = {
     find: jest.fn(),
@@ -56,10 +64,23 @@ describe('UsersController', () => {
 
           useValue: mockRepository,
         },
+        {
+          provide: getModelToken(Product.name),
+          useValue: mockRepository,
+        },
+        {
+          provide: getModelToken(Market.name),
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+
+          useValue: mockRepository,
+        },
         LocalAuthGuard,
         UserNotSellerGuard,
         AuthenticatedGuard,
         AuthService,
+        ProductsRepository,
+        MarketsRepository,
+        { provide: APP_FILTER, useClass: HttpExceptionFilter },
       ],
     })
       .overrideGuard(LocalAuthGuard)
@@ -80,6 +101,9 @@ describe('UsersController', () => {
     userController = moduleFixture.get<UsersController>(UsersController);
     userService = moduleFixture.get<UsersService>(UsersService);
     userRepository = moduleFixture.get<UsersRepository>(UsersRepository);
+    productRepository =
+      moduleFixture.get<ProductsRepository>(ProductsRepository);
+    marketRepository = moduleFixture.get<MarketsRepository>(MarketsRepository);
   });
 
   it('should be defined', () => {
