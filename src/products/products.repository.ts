@@ -76,7 +76,7 @@ export class ProductsRepository {
     );
   }
 
-  async findAllProducts() {
+  async findAllProducts(): Promise<ProductDetailInfoDto[]> {
     const productList = await this.productModel
       .find({ deletedAt: null })
       .populate('user', [
@@ -89,7 +89,47 @@ export class ProductsRepository {
       ])
       .exec();
 
-    return productList;
+    const result = await Promise.all(
+      productList.map((productOne) => {
+        const {
+          user,
+          _id,
+          name,
+          buyCountry,
+          buyLocation,
+          category,
+          price,
+          description,
+          closeDate,
+          createdAt,
+        } = productOne;
+
+        const seller: ProductSellerInfo = {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          isSeller: user.isSeller,
+          sellerNickname: user.sellerNickname,
+        };
+
+        const info: ProductWithoutUserInfo = {
+          _id: _id,
+          name: name,
+          buyCountry: buyCountry,
+          buyLocation: buyLocation,
+          category: category,
+          price: price,
+          description: description,
+          closeDate: closeDate,
+          createdAt: createdAt,
+        };
+
+        return { info: info, seller: seller };
+      }),
+    );
+
+    return result;
   }
 
   async findOnePopulated(productId: string): Promise<ProductDetailInfoDto> {

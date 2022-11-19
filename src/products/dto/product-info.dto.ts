@@ -1,6 +1,6 @@
 export class ProductInfo {
   _id: object; //아이디
-  user: object; //셀러명
+  user: object; //셀러 아이디
   name: string; //상품명
   buyCountry: string; //구매국가
   buyLocation: string; //구매지역

@@ -14,7 +14,6 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { HttpExceptionFilter } from '../commons/filters/http-exception/http-exception.filter';
 import { User } from '../auth/decorators/auth.decorator';
-import { User as Users } from '../users/schemas/user.schema';
 import { SellerGuard } from '../auth/guards/local-auth.guard';
 
 @UseFilters(new HttpExceptionFilter())
