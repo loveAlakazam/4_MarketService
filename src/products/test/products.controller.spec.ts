@@ -40,6 +40,8 @@ describe('ProductsController', () => {
     exec: jest.fn(() => true),
     updateOne: jest.fn(),
     create: jest.fn(),
+    populate: jest.fn(() => true),
+    aggregate: jest.fn(),
   };
 
   const mockGuards = {
@@ -64,16 +66,19 @@ describe('ProductsController', () => {
           provide: getModelToken(Product.name),
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           useFactory: () => {},
+          useValue: mockRepository,
         },
         {
           provide: getModelToken(Market.name),
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           useFactory: () => {},
+          useValue: mockRepository,
         },
         {
           provide: getModelToken(User.name),
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           useFactory: () => {},
+          useValue: mockRepository,
         },
         AuthService,
         LocalAuthGuard,
