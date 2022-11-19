@@ -12,6 +12,16 @@ import { AccessUser } from '../../auth/dto/access-user.dto';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { HttpException } from '@nestjs/common';
 import { UpdateProductDto } from '../dto/update-product.dto';
+import {
+  ProductDetailInfoDto,
+  ProductSellerInfo,
+} from '../dto/product-detail-info.dto';
+
+const mockMongoRepository = {
+  find: jest.fn().mockReturnThis(),
+  populate: jest.fn().mockReturnThis(),
+  exec: jest.fn().mockReturnThis(),
+};
 
 describe('ProductsService', () => {
   let productService: ProductsService;
@@ -26,13 +36,11 @@ describe('ProductsService', () => {
         MarketsRepository,
         {
           provide: getModelToken(Product.name),
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          useFactory: () => {},
+          useValue: mockMongoRepository,
         },
         {
           provide: getModelToken(Market.name),
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          useFactory: () => {},
+          useValue: mockMongoRepository,
         },
       ],
     }).compile();
@@ -226,4 +234,74 @@ describe('ProductsService', () => {
       }
     });
   });
+
+  // 전체상품조회
+  describe('findAll', () => {
+    const user: AccessUser = {
+      _id: new Object('111'),
+      name: '이기석',
+      email: 'giseok@bank2b.io',
+      isSeller: true,
+      phoneNumber: '010-1111-2222',
+    };
+
+    const createProductDto: CreateProductDto = {
+      name: '야구방망이',
+      buyCountry: PRODUCT_COUNTRIES.KR,
+      buyLocation: '대구',
+      category: PRODUCT_CATEGORIES.NO,
+      price: 25000,
+      description:
+        '야구방맹이가 없어도, 투명방맹이로 섭씨100도 춤을 출 수 있어요',
+      closeDate: null,
+    };
+
+    const seller: ProductSellerInfo = {
+      _id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      isSeller: user.isSeller,
+      sellerNickname: '기스깅',
+    };
+
+    const insertData: ProductDetailInfoDto = {
+      info: {
+        _id: new Object('12345'),
+        name: createProductDto.name,
+        buyCountry: createProductDto.buyCountry,
+        buyLocation: createProductDto.buyLocation,
+        category: createProductDto.category,
+        price: createProductDto.price,
+        description: createProductDto.description,
+        closeDate: createProductDto.closeDate,
+        createdAt: new Date(),
+      },
+      seller: seller,
+    };
+
+    // 데이터를 추가한다.
+    beforeEach(async () => {
+      jest
+        .spyOn(productRepository, 'createProduct')
+        .mockResolvedValue(new Product());
+      jest
+        .spyOn(marketRepository, 'createMarketData')
+        .mockResolvedValue(Promise.resolve());
+
+      expect(
+        productService.create(user, createProductDto),
+      ).resolves.toBeInstanceOf(Product);
+    });
+
+    it('전체상품을 조회할 수 있다.', async () => {
+      jest
+        .spyOn(productRepository, 'findAllProducts')
+        .mockResolvedValue([insertData]);
+
+      const result = await productService.findAll();
+      expect(result.length).toBe(1);
+    });
+  });
+
 });
