@@ -15,7 +15,10 @@ export class UsersRepository {
    * @returns
    */
   async checkExistUserByEmail(email: string) {
-    const user = await this.userModel.findOne({ email: email });
+    const user = await this.userModel.findOne({
+      email: email,
+      deletedAt: null,
+    });
     return user;
   }
 
@@ -37,18 +40,21 @@ export class UsersRepository {
    * 유저 아이디 조회
    */
   async findUserById(userId: string) {
-    const user = await this.userModel.findById(userId);
+    const user = await this.userModel.findOne({ _id: userId, deletedAt: null });
     return user;
   }
 
   // 모든 유저 조회
   async findAllUsers() {
-    return this.userModel.find();
+    return this.userModel.find({ deletedAt: null || undefined });
   }
 
   // 유저정보수정
   async updateUserInfo(id: string, updateUserDto: UpdateUserDto) {
-    return this.userModel.updateOne({ _id: id }, { ...updateUserDto });
+    return this.userModel.updateOne(
+      { _id: id, deletedAt: null }, // 아직 탈퇴되지 않은 회원
+      { ...updateUserDto },
+    );
   }
 
   // 유저삭제
