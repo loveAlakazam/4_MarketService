@@ -137,6 +137,7 @@ describe('UsersController', () => {
       });
 
       it('should be update to sellerUser', async () => {
+        agent = request.agent(app.getHttpServer());
         await agent
           .patch('/api/users/seller')
           .send({ sellerNickname: '기스깅' })
