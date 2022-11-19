@@ -7,7 +7,7 @@ import { Product } from '../schemas/product.schema';
 import { Market } from '../../markets/schemas/markets.schema';
 import { PRODUCT_CATEGORIES } from '../enums/categories';
 import { PRODUCT_COUNTRIES } from '../enums/countries';
-import { ProductInfo } from '../dto/product-info.dto';
+import { ProductInfo, ProductWithoutUserInfo } from '../dto/product-info.dto';
 import { AccessUser } from '../../auth/dto/access-user.dto';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { HttpException } from '@nestjs/common';
@@ -16,6 +16,7 @@ import {
   ProductDetailInfoDto,
   ProductSellerInfo,
 } from '../dto/product-detail-info.dto';
+import { object } from 'joi';
 
 const mockMongoRepository = {
   find: jest.fn().mockReturnThis(),
@@ -304,4 +305,70 @@ describe('ProductsService', () => {
     });
   });
 
+  // 상품 상세조회
+  describe('findOne', () => {
+    // 상품정보
+    const productInfo: ProductWithoutUserInfo = {
+      _id: new Object(123),
+      name: '에코백',
+      buyCountry: PRODUCT_COUNTRIES.KR, //대한민국
+      buyLocation: '대구',
+      category: PRODUCT_CATEGORIES.BAGS, // 가방
+      price: 10000,
+      description: '상품상세조회 테스트',
+      closeDate: new Date('2022-12-31'),
+      createdAt: new Date(),
+    };
+
+    // 판매자 정보
+    const productSeller: ProductSellerInfo = {
+      _id: '1',
+      name: '이기석',
+      email: 'giseok@bank2brothers.io',
+      phoneNumber: '010-1111-2222',
+      isSeller: true,
+      sellerNickname: '기스깅',
+    };
+
+    // 판매자가 올린 다른 상품
+    const otherProduct: ProductInfo = {
+      _id: new Object(124),
+      user: new Object(productSeller._id),
+      name: '에어맥스',
+      buyCountry: PRODUCT_COUNTRIES.US,
+      buyLocation: 'LA',
+      category: PRODUCT_CATEGORIES.ELECTRONICS,
+      price: 700000,
+      description: '셀러가 올린 다른상품',
+      closeDate: new Date('2022-12-31'),
+      createdAt: new Date(),
+    };
+
+    const sellerOtherProducts: ProductInfo[] = [otherProduct];
+
+    const productDetailInfo: ProductDetailInfoDto = {
+      info: productInfo,
+      seller: productSeller,
+      others: sellerOtherProducts,
+    };
+
+    it('단일 상품의 정보를 조회할 수 있다.', async () => {
+      jest
+        .spyOn(productRepository, 'findOnePopulated')
+        .mockResolvedValue(productDetailInfo);
+
+      jest
+        .spyOn(productRepository, 'findSellerOtherProducts')
+        .mockResolvedValue(sellerOtherProducts);
+
+      jest
+        .spyOn(productService, 'findOne')
+        .mockResolvedValue(productDetailInfo);
+
+      const result = await productService.findOne('123');
+      expect(result).toHaveProperty('info');
+      expect(result).toHaveProperty('seller');
+      expect(result).toHaveProperty('others');
+    });
+  });
 });
