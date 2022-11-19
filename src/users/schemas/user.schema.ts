@@ -26,7 +26,7 @@ export class User {
   @Prop({ default: Date.now })
   createdAt: Date; // 등록일
 
-  @Prop()
+  @Prop({ default: null })
   deletedAt: Date; // 삭제일
 
   @Prop()

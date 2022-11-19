@@ -1,14 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { User, UserDocument } from '../users/schemas/user.schema';
-import { CreateUserDto } from './dto/create-user.dto';
+import { Injectable, UseFilters } from '@nestjs/common';
+import { HttpExceptionFilter } from '../commons/filters/http-exception/http-exception.filter';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AccessUser } from '../auth/dto/access-user.dto';
 import { UsersRepository } from './users.repository';
+import { ProductsRepository } from '../products/products.repository';
+import { MarketsRepository } from '../markets/markets.repository';
 
+@UseFilters(new HttpExceptionFilter())
 @Injectable()
 export class UsersService {
-  constructor(private readonly repository: UsersRepository) {}
+  constructor(
+    private readonly marketRepository: MarketsRepository,
+    private readonly productRepository: ProductsRepository,
+    private readonly repository: UsersRepository,
+  ) {}
 
   // 모든 유저 검색
   async findAllUsers() {
@@ -30,7 +35,23 @@ export class UsersService {
     return await this.repository.updateUserInfo(id, updateUserDto);
   }
 
-  async removeUser(id: string) {
-    return await this.repository.removeUser(id);
+  // 회원탈퇴
+  async leaveUser(user: AccessUser) {
+    const userId = user._id.toString();
+    try {
+      // seller 인지 확인
+      if (user.isSeller) {
+        // products 콜렉션에서 등록한 상품 모두 soft-delete 처리
+        await this.productRepository.deleteProductsByLeaveSeller(userId);
+
+        // markets 콜렉션에서 모두 soft-delete 처리
+        await this.marketRepository.deleteMarketDataByLeaveSeller(userId);
+      }
+
+      // 탈퇴
+      return await this.repository.leaveUser(userId);
+    } catch (error) {
+      throw error;
+    }
   }
 }

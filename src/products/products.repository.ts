@@ -201,4 +201,22 @@ export class ProductsRepository {
 
     return otherProducts;
   }
+
+  async deleteProductsByLeaveSeller(sellerId: string) {
+    try {
+      return await this.productModel.updateMany(
+        {
+          // 셀러가 등록한 상품을 찾는다.
+          user: sellerId,
+          deletedAt: null,
+        },
+        {
+          // 셀러가 등록한 상품을 deletedAt 값을 변경하여 soft-delete처리
+          deletedAt: new Date(),
+        },
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
 }

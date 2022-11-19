@@ -2,8 +2,11 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersRepository } from '../users.repository';
 import { UsersService } from '../users.service';
-import { User, UserDocument } from '../schemas/user.schema';
-import * as bcrypt from 'bcrypt';
+import { User } from '../schemas/user.schema';
+import { Product } from '../../products/schemas/product.schema';
+import { Market } from '../../markets/schemas/markets.schema';
+import { ProductsRepository } from '../../products/products.repository';
+import { MarketsRepository } from '../../markets/markets.repository';
 
 const modekDataSource = () => ({});
 const mockRepository = {
@@ -19,6 +22,8 @@ const mockRepository = {
 describe('UsersService', () => {
   let userService: UsersService;
   let userRepository: UsersRepository;
+  let productRepository: ProductsRepository;
+  let marketRepository: MarketsRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -31,11 +36,27 @@ describe('UsersService', () => {
           useFactory: () => {},
           useValue: mockRepository,
         },
+        {
+          provide: getModelToken(Product.name),
+          useValue: mockRepository,
+        },
+        {
+          provide: getModelToken(Market.name),
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+
+          useValue: mockRepository,
+        },
+        ProductsRepository,
+        MarketsRepository,
       ],
     }).compile();
 
     userService = await module.get<UsersService>(UsersService);
     userRepository = await module.get<UsersRepository>(UsersRepository);
+    productRepository = await module.get<ProductsRepository>(
+      ProductsRepository,
+    );
+    marketRepository = await module.get<MarketsRepository>(MarketsRepository);
   });
 
   it('should be defined', () => {

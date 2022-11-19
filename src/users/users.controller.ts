@@ -44,4 +44,15 @@ export class UsersController {
   async getUserInfo(@User() user) {
     return this.usersService.findUserById(user?._id);
   }
+
+  /**
+   * [DELETE] /api/users/:id
+   * 유저 탈퇴
+   * - 탈퇴한 유저가 셀러일경우, 탈퇴유저가 등록한 상품도 모두 삭제됩니다.
+   */
+  @UseGuards(AuthenticatedGuard)
+  @Delete()
+  async leaveUser(@User() user) {
+    return this.usersService.leaveUser(user);
+  }
 }
