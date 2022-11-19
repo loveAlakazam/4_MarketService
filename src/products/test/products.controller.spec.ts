@@ -7,7 +7,13 @@ import { ProductsRepository } from '../products.repository';
 import { ProductsService } from '../products.service';
 import { Product } from '../schemas/product.schema';
 import { Market } from '../../markets/schemas/markets.schema';
-import { SellerGuard } from '../../auth/guards/local-auth.guard';
+import {
+  AuthenticatedGuard,
+  LocalAuthGuard,
+  SellerGuard,
+} from '../../auth/guards/local-auth.guard';
+import * as request from 'supertest';
+import { AuthService } from '../../auth/auth.service';
 
 describe('ProductsController', () => {
   let app: INestApplication;
@@ -36,6 +42,7 @@ describe('ProductsController', () => {
       }
       return false;
     }),
+    LocalAuthGuard: jest.fn((request) => (request ? true : false)),
   };
 
   beforeEach(async () => {
@@ -55,10 +62,15 @@ describe('ProductsController', () => {
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           useFactory: () => {},
         },
+        AuthService,
+        LocalAuthGuard,
+        SellerGuard,
       ],
     })
       .overrideGuard(SellerGuard)
       .useValue(mockGuards.SellerGuard)
+      .overrideGuard(LocalAuthGuard)
+      .useValue(mockGuards.LocalAuthGuard)
       .compile();
 
     app = module.createNestApplication();
@@ -70,7 +82,7 @@ describe('ProductsController', () => {
       }),
     );
 
-    app.init();
+    await app.init();
 
     controller = module.get<ProductsController>(ProductsController);
     service = module.get<ProductsService>(ProductsService);
@@ -81,4 +93,37 @@ describe('ProductsController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+  describe('create', () => {
+    let agent;
+    beforeAll(async () => {
+      // 로그인
+      agent = request.agent(app.getHttpServer());
+      await agent
+        .post('/api/auth/sign-in')
+        .send({ email: 'giseok@bankb.io', password: 'bank2brothers@' })
+        .expect(201);
+    });
+
+    it('상품등록 성공', async () => {
+      agent = request.agent(app.getHttpServer());
+      await agent
+        .post('/api/products')
+        .send({
+          name: '제육볶음 밀키트',
+          category: '식품',
+          buyCountry: '대한민국',
+          buyLocation: '서울',
+          price: 12000,
+          description: '제육볶음 밀키트 - e2e 상품데이터 등록 테스트',
+          closeDate: null,
+        })
+        .expect(201);
+    });
+  });
+
+  it.todo('update');
+  it.todo('delete');
+  it.todo('findOne');
+  it.todo('findAll');
 });
