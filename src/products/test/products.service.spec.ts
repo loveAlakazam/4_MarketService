@@ -16,11 +16,6 @@ import {
   ProductDetailInfoDto,
   ProductSellerInfo,
 } from '../dto/product-detail-info.dto';
-import {
-  ProductDetailInfoDto,
-  ProductSellerInfo,
-} from '../dto/product-detail-info.dto';
-import { object } from 'joi';
 
 const mockMongoRepository = {
   find: jest.fn().mockReturnThis(),
