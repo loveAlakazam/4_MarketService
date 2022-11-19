@@ -121,4 +121,22 @@ export class MarketsRepository {
       .sort({ 'product.createdAt': -1, ...sortCloseDateQuery })
       .exec();
   }
+
+  async deleteMarketDataByLeaveSeller(sellerId: string) {
+    try {
+      return await this.marketModel.updateMany(
+        {
+          // 셀러가 등록했고 아직 삭제되지 않은 마켓데이터를 찾는다.
+          seller: sellerId,
+          deletedAt: null,
+        },
+        {
+          // 유저탈퇴로 마켓에 등록한 데이터를 삭제한다.
+          deletedAt: new Date(),
+        },
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
 }
