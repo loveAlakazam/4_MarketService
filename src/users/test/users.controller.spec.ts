@@ -19,6 +19,7 @@ import { Market } from '../../markets/schemas/markets.schema';
 import { ProductsRepository } from '../../products/products.repository';
 import { MarketsRepository } from '../../markets/markets.repository';
 import { HttpExceptionFilter } from '../../commons/filters/http-exception/http-exception.filter';
+import { BANK_NAMES } from '../enums/accountBankEnum';
 
 const { SESSION_ID, COOKIE_SECRET } = process.env;
 
@@ -40,6 +41,7 @@ describe('UsersController', () => {
     create: jest.fn(),
     exec: jest.fn(() => true),
     updateOne: jest.fn(),
+    populate: jest.fn(),
   };
   const mockGuards = {
     CanActivate: jest.fn((request) => (request ? true : false)),
@@ -160,11 +162,26 @@ describe('UsersController', () => {
           .expect(201);
       });
 
-      it('should be update to sellerUser', async () => {
+      // ver1에서는 sellerNickname 만 입력해도 200을 리턴하지만
+      // 고도화 이후에는 계좌정보를 입력해야 200을 리턴합니다.
+      it('should be Error to sellerUser', async () => {
         agent = request.agent(app.getHttpServer());
         await agent
           .patch('/api/users/seller')
           .send({ sellerNickname: '기스깅' })
+          .expect(400);
+      });
+
+      it('should be update to sellerUser', async () => {
+        agent = request.agent(app.getHttpServer());
+        await agent
+          .patch('/api/users/seller')
+          .send({
+            sellerNickname: '기스깅',
+            accountName: '이기석',
+            accountBank: BANK_NAMES.KB,
+            accountNumber: '123456-12-654321',
+          })
           .expect(200);
       });
     });
