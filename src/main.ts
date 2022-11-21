@@ -10,6 +10,7 @@ import {
 } from 'nest-winston';
 import * as winston from 'winston';
 import { sessionConfig } from './auth/sessions/auth.session.config';
+import { setupSwagger } from './commons/swagger/swagger.config';
 
 async function bootstrap() {
   /*
@@ -34,6 +35,10 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
+  // Swagger 적용
+  // Swagger 호출 URL: /api-docs
+  setupSwagger(app);
+
   // URL의 최상단을 /api 로 한다.
   app.setGlobalPrefix('/api');
 
@@ -55,6 +60,7 @@ async function bootstrap() {
 
   // HttpExceptionFilter을 전역 스코프에 적용.
   app.useGlobalFilters(new HttpExceptionFilter());
+
   await app.listen(3000);
 }
 bootstrap();
