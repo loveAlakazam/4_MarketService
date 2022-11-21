@@ -1,73 +1,59 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# NoSQL(MongoDB)을 활용한 마켓 웹서비스
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+- 수행기간: 2022.11.07 ~ 2022.11.17
+- 수행기간 이후에도 자발적으로 고도화 시킨 기능
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<br><br>
 
-## Description
+## 그동안 겪은 고민과 문제 해결과정 기록
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- [나만의 Custom Error Exception 와 Custom Exception Filter 만들기 (feat: NestJS 다큐먼트 읽기)](https://ek12mv2.tistory.com/331)
+- [서비스 로직에서 db를 호출하지 말고, Repository 레이어를 추가하기 ](https://ek12mv2.tistory.com/339)
+- [NestJS framework에 MongoDB 연결하기](https://ek12mv2.tistory.com/333)
+- [MongoDB+NestJS+Mongoose - 콜렉션의 외래키 컬럼 설정하는 방법](https://ek12mv2.tistory.com/336)
+- [Guard가 있는 컨트롤러 유닛 테스트하기 - 유저 controller 테스트](https://ek12mv2.tistory.com/343)
+- [Cast to date failed for value "[Function:now]" 에러 해결 - Soft Delete 구현하기](https://ek12mv2.tistory.com/344)
+- [MongoDB populate() 사용해보기](https://ek12mv2.tistory.com/345)
+- [MongoDB $cond, $exists, $nin, $gt 옵션들을 활용하여 쿼리문 만들기 : 판매자가 올린 다른 상품들 데이터 구하기 ](https://ek12mv2.tistory.com/347)
+- [MongoDB aggregation 활용하여 마켓리스트 나타내기](https://ek12mv2.tistory.com/348)
 
-## Installation
+<br><br>
+
+## 사용기술스택
+
+- Environment: <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+- Language: TypeScript
+- Framework: NestJS
+- Database: MongoDB (MongoDB Atlas 5.0.13)
+- Test: Jest
+- Etc
+  - Mongoose
+  - Github Action & Workflow
+
+<br><br>
+
+## ERD Diagram
+
+- ERD Cloud
+
+<br><br>
+
+## 프로젝트 실행방법
+
+> 패키지 설치
 
 ```bash
 $ npm install
 ```
 
-## Running the app
+> 런타임 실행
 
 ```bash
-# development
 $ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
-## Test
+> Unit-Test 케이스 실행
 
 ```bash
-# unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
