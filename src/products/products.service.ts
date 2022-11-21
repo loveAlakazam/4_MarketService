@@ -7,7 +7,7 @@ import {
   NotFoundProductException,
 } from './products.exception';
 import { ProductsRepository } from './products.repository';
-import { AccessUser } from 'src/auth/dto/access-user.dto';
+import { AccessUser } from '../auth/dto/access-user.dto';
 
 @Injectable()
 export class ProductsService {
