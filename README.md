@@ -77,14 +77,14 @@ $ npm run test
 
 ### 1. 유저 API
 
-|        URL         | Method |                                기능 설명                                 |
-| :----------------: | :----: | :----------------------------------------------------------------------: |
-| /api/auth/sign-up  |  POST  |                                 회원가입                                 |
-| /api/auth/sign-in  |  POST  |                                  로그인                                  |
-| /api/auth/sign-out |  GET   |                                 로그아웃                                 |
-| /api/users/profile |  GET   |                          로그인한 유저정보 조회                          |
-| /api/users/seller  | PATCH  | 일반유저에서 셀러유저로 전환 (isSeller 컬럼이 `false` -> `true` 로 변경) |
-|   /api/users/:id   | DELETE |                                 회원탈퇴                                 |
+|        URL         | Method | 기능 설명                                                                    |
+| :----------------: | :----: | :--------------------------------------------------------------------------- |
+| /api/auth/sign-up  |  POST  | 회원가입                                                                     |
+| /api/auth/sign-in  |  POST  | 로그인                                                                       |
+| /api/auth/sign-out |  GET   | 로그아웃                                                                     |
+| /api/users/profile |  GET   | 로그인한 유저정보 조회                                                       |
+| /api/users/seller  | PATCH  | 일반유저에서 셀러유저로 전환 <br>(isSeller 컬럼이 `false` -> `true` 로 변경) |
+|   /api/users/:id   | DELETE | 회원탈퇴                                                                     |
 
 <br>
 
@@ -93,7 +93,7 @@ $ npm run test
 - 상품은 셀러 유저만 등록이 가능합니다.
 
 |        URL        | Method | 기능 설명           |
-| :---------------: | :----: | ------------------- |
+| :---------------: | :----: | :------------------ |
 |   /api/products   |  POST  | 상품 등록           |
 |   /api/products   |  GET   | 전상품 조회         |
 | /api/products/:id |  GET   | 단일 상품 상세 조회 |
@@ -105,10 +105,18 @@ $ npm run test
 ### 3. 마켓 API
 
 |      URL      | Method | 기능 설명                  |
-| :-----------: | :----: | -------------------------- |
+| :-----------: | :----: | :------------------------- |
 | /api/markets/ |  GET   | 마켓 조회 및 카테고리 검색 |
 
-<br><br>
+<br>
+
+### 4. Swagger
+
+|    URL    | Method | 기능 설명                    |
+| :-------: | :----: | :--------------------------- |
+| /api-docs |  GET   | 브라우저에서 Swagger 을 조회 |
+
+<br>
 
 ## API Platform Test (Insomnia)
 
