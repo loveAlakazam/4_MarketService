@@ -142,6 +142,9 @@ export class ProductsRepository {
         'phoneNumber',
         'isSeller',
         'sellerNickname',
+        'accountName', // 예금주명
+        'accountBank', // 은행
+        'accountNumber', //계좌번호
       ])
       .exec();
 
@@ -165,6 +168,9 @@ export class ProductsRepository {
       phoneNumber: user.phoneNumber,
       isSeller: user.isSeller,
       sellerNickname: user.sellerNickname,
+      accountName: user.accountName,
+      accountBank: user.accountBank,
+      accountNumber: user.accountNumber,
     };
 
     const info: ProductWithoutUserInfo = {

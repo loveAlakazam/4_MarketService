@@ -29,8 +29,14 @@ export class User {
   @Prop({ default: null })
   deletedAt: Date; // 삭제일
 
-  @Prop()
-  refreshToken: string; // 리프래시 토큰
+  @Prop({ default: null })
+  accountNumber: string; // 계좌번호
+
+  @Prop({ default: null })
+  accountName: string; // 예금주명
+
+  @Prop({ default: null })
+  accountBank: string; // 은행명
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
