@@ -5,8 +5,8 @@
   - [고도화1. 유저탈퇴 기능 추가 ](https://github.com/loveAlakazam/4_MarketService/issues/15)
     - 유저가 탈퇴했을 때 User.deletedAt 값을 `null` -> `new Date()` 로 변경
     - 탈퇴할 유저가 셀러이고, 등록한 상품이 존재한다면, 해당상품의 deletedAt 값을 `null` -> `new Date()`로 변경
-  - 고도화2. Swagger 만들기
-  - [고도화3. (진행중) 셀러등록시 계좌정보 컬럼추가](https://github.com/loveAlakazam/4_MarketService/issues/11)
+  - [고도화2. 셀러등록 계좌정보 컬럼추가](https://github.com/loveAlakazam/4_MarketService/issues/11)
+  - 고도화3. Swagger 만들기
 
 <br><br>
 
