@@ -1,6 +1,4 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { LoggerMiddleware } from './commons/logger/logger.middleware';
 import { UsersModule } from './users/users.module';
 import { MarketsModule } from './markets/markets.module';
@@ -55,8 +53,8 @@ import * as Joi from 'joi';
     ConfigModule,
     AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
