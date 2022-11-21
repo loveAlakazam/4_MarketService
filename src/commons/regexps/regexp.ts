@@ -27,3 +27,8 @@ export const PASSWORD_REGEXP =
  * - 예시: 2022-12-25
  */
 export const DATE_REGEX = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
+
+/**
+ * 계좌번호 정규식
+ */
+export const ACCOUNT_NUMBER_REGEX = /([\d,\-]{3,6}\-[\d,\-]{2,6}\-[\d,\-])/;
