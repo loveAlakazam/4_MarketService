@@ -123,7 +123,7 @@ $ npm run test
 >
 > 셀러회원은 셀러등록 api를 요청해야합니다.
 
-- URL : ``
+- URL : `localhost:3000/api/auth/sign-up`
 
 - Request
 
@@ -282,19 +282,22 @@ $ npm run test
 
 <br>
 
-### 4-2. 셀러등록 (ver.2/ 고도화 진행예정)
+### 4-2. 셀러등록 (ver.2)
+
+> 셀러닉네임(sellerNickname), 예금주명(accountName), 은행명(accountBank), 계좌번호(accountNumber) 모두 필수로 입력해야됩니다.
 
 - Request
 
 ```json
-
+{
+  "sellerNickname": "기스깅깅깅",
+  "accountName": "이기석",
+  "accountBank": "토스뱅크",
+  "accountNumber": "1234-5678-5432"
+}
 ```
 
-- Response
-
-```json
-
-```
+- Response : 200 OK
 
 <br>
 
@@ -415,7 +418,7 @@ $ npm run test
 
 <br><br>
 
-### 4. 상품 상세조회
+### 4-1. 상품 상세조회
 
 - URL : `http://localhost:3000/api/products/63711974edd439858c0801c1`
 
@@ -459,6 +462,61 @@ $ npm run test
       "description": "기스깅 테스트 상품수정 테스트",
       "closeDate": null,
       "createdAt": "2022-11-13T15:54:53.828Z",
+      "deletedAt": null,
+      "__v": 0
+    }
+  ]
+}
+```
+
+<br>
+
+### 4-2. 상품 상세정보 조회 (ver.2)
+
+> 셀러 등록 고도화 이후 - 셀러의 정보(seller)에 셀러의 계좌정보(은행/예금주명/계좌번호) 도 추가
+>
+> > seller.accountName, seller.accountBank, seller.accountNumber 추가완료
+
+- URL: `localhost:3000/api/products/637b7ee2be3f07450d7c752d`
+
+- Response
+
+```json
+{
+  "info": {
+    "_id": "637b7ee2be3f07450d7c752d",
+    "name": "마시멜로우 쿠키",
+    "buyCountry": "대한민국",
+    "buyLocation": "대구",
+    "category": "식품",
+    "price": 3500,
+    "description": "상품등록 테스트데이터",
+    "closeDate": "2022-12-31T00:00:00.000Z",
+    "createdAt": "2022-11-21T13:35:18.270Z"
+  },
+  "seller": {
+    "_id": "6370afcd636b64745342113c",
+    "name": "이기석3",
+    "email": "giseok3@bankb.io",
+    "phoneNumber": "010-1666-2222",
+    "isSeller": true,
+    "sellerNickname": "기스깅깅깅",
+    "accountName": "이기석",
+    "accountBank": "토스뱅크",
+    "accountNumber": "1234-5678-5432"
+  },
+  "others": [
+    {
+      "_id": "637b7ed4be3f07450d7c7528",
+      "user": "6370afcd636b64745342113c",
+      "name": "오레오 쿠키",
+      "buyCountry": "대한민국",
+      "buyLocation": "대구",
+      "category": "식품",
+      "price": 3500,
+      "description": "상품등록 테스트데이터",
+      "closeDate": "2022-12-31T00:00:00.000Z",
+      "createdAt": "2022-11-21T13:35:18.270Z",
       "deletedAt": null,
       "__v": 0
     }
