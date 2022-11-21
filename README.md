@@ -117,6 +117,12 @@ $ npm run test
 
 ### 1. 회원가입
 
+> 회원가입을 한 유저의 등급은 '일반' 등급으로 초기화합니다.
+>
+> 회원가입 완료하면 바로 로그인이 진행되지 않습니다.
+>
+> 셀러회원은 셀러등록 api를 요청해야합니다.
+
 - URL : ``
 
 - Request
@@ -133,6 +139,35 @@ $ npm run test
 - Response: 201 Created
 
 <br>
+
+> 이미 가입한 회원의 이메일(`busybe_3@bankb.io`)로 회원가입할 때는 400 Bad Request 에러를 리턴합니다.
+
+- Request
+
+```json
+{
+  "email": "busybe_3@bankb.io",
+  "password": "bank11Brothers@",
+  "name": "비지비1-4",
+  "phoneNumber": "010-1666-2222"
+}
+```
+
+- Response : 400 Bad Request
+
+```json
+{
+  "statusCode": 400,
+  "timestamp": "2022-11-21T12:17:31.551Z",
+  "path": "/api/auth/sign-up",
+  "message": {
+    "code": 400,
+    "message": "이미 존재하는 사용자 입니다."
+  }
+}
+```
+
+<br><br>
 
 ### 2. 로그인
 
@@ -211,7 +246,43 @@ $ npm run test
 
 ### 4-1. 셀러등록 (ver.1)
 
-- URL : `url`
+> 일반유저로 로그인 이후에 셀러등록을 요청합니다.
+
+- URL : `localhost:3000/api/users/seller`
+
+- Request
+
+```json
+{
+  "sellerNickname": "셀러 비지비4"
+}
+```
+
+- Response : 200 OK
+
+<br>
+
+> 셀러유저로 로그인 이후에 요청하면 403 에러가 나옵니다.
+> 비회원으로 셀려등록 api를 요청하면 403 에러가 나옵니다.
+
+- Response : 403 Forbidden
+
+```json
+{
+  "statusCode": 403,
+  "timestamp": "2022-11-12T15:10:35.744Z",
+  "path": "/api/users/seller",
+  "message": {
+    "statusCode": 403,
+    "message": "Forbidden resource",
+    "error": "Forbidden"
+  }
+}
+```
+
+<br>
+
+### 4-2. 셀러등록 (ver.2/ 고도화 진행예정)
 
 - Request
 
@@ -227,11 +298,12 @@ $ npm run test
 
 <br>
 
-<br>
+### 5. 로그아웃
 
-### 4-2. 셀러등록 (ver.2) (아직 진행중)
+> 현재 로그인된 세션을 제거합니다.
 
-<br>
+- URL: `http://localhost:3000/api/auth/sign-out`
+- Response : 200 OK
 
 </details>
 
@@ -240,65 +312,108 @@ $ npm run test
 <details>
 <summary>상품 API</summary>
 
-### 1. 상품등록
+### 1-1. 상품등록 1
 
-- URL : `url`
+- URL : `http://localhost:3000/api/products`
 
 - Request
 
 ```json
-
+{
+  "name": "상품등록테스트",
+  "category": "식품",
+  "price": 5500,
+  "closeDate": "2022-12-15",
+  "description": "상품등록 테스트데이터",
+  "buyCountry": "대한민국"
+}
 ```
 
-- Response
+- Response : 201 Created
 
 ```json
-
+{
+  "user": "637113524a01e69f6ddf2201",
+  "name": "상품등록테스트",
+  "buyCountry": "대한민국",
+  "buyLocation": null,
+  "category": "식품",
+  "price": 5500,
+  "description": "상품등록 테스트데이터",
+  "closeDate": "2022-12-15T00:00:00.000Z",
+  "createdAt": "2022-11-13T16:47:42.121Z",
+  "deletedAt": null,
+  "_id": "6371207d921da6e270b655e7",
+  "__v": 0
+}
 ```
 
 <br>
+
+### 1-2. 상품등록 2
+
+- Request
+
+```json
+{
+  "name": "초코칩 쿠키",
+  "category": "식품",
+  "price": 3500,
+  "description": "상품등록 테스트데이터",
+  "buyCountry": "대한민국",
+  "buyLocation": "대구",
+  "closeDate": "2022-12-31"
+}
+```
+
+- Response : 201 Created
+
+```json
+{
+  "user": "636b835c84d6972931416310",
+  "name": "초코칩 쿠키",
+  "buyCountry": "대한민국",
+  "buyLocation": "대구",
+  "category": "식품",
+  "price": 3500,
+  "description": "상품등록 테스트데이터",
+  "closeDate": "2022-12-31T00:00:00.000Z",
+  "createdAt": "2022-11-19T16:21:28.605Z",
+  "deletedAt": null,
+  "_id": "637902c3053344cbeff20f6a",
+  "__v": 0
+}
+```
 
 <br>
 
 ### 2. 상품수정
 
-- URL : `url`
+- URL : `localhost:3000/api/products/637113fe4a01e69f6ddf220a`
 
 - Request
 
 ```json
-
+{
+  "buyCountry": "대한민국",
+  "buyLocation": "대구",
+  "name": "로제떡볶이",
+  "description": "기스깅 테스트 상품수정 테스트",
+  "closeDate": null
+}
 ```
 
-- Response
+- Response : 200 OK
 
-```json
-
-```
-
-<br>
-
-<br>
+<br><br>
 
 ### 3. 상품삭제
 
-- URL : `url`
+- URL : `localhost:3000/api/products/6371207d921da6e270b655e7`
 
-- Request
+- Response : 200 OK
 
-```json
-
-```
-
-- Response
-
-```json
-
-```
-
-<br>
-
-<br>
+<br><br>
 
 ### 4. 상품 상세조회
 
@@ -351,9 +466,7 @@ $ npm run test
 }
 ```
 
-<br>
-
-<br>
+<br><br>
 
 ### 5. 전체 상품조회
 
@@ -575,10 +688,6 @@ $ npm run test
   }
 ]
 ```
-
-<br>
-
-<br>
 
 </details>
 
