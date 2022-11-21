@@ -21,11 +21,14 @@
 
 ## 사용기술스택
 
-- Environment: <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-- Language: TypeScript
-- Framework: NestJS
-- Database: MongoDB (MongoDB Atlas 5.0.13)
-- Test: Jest
+- Environment: <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
+
+
+
+- Language: <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white">
+- Framework: <img src="https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=NestJS&logoColor=white">
+- Database: <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=MongoDB&logoColor=white">(MongoDB Atlas 5.0.13)
+- Unit-Test: <img src="https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=Jest&logoColor=white">
 - Etc
   - Mongoose
   - Github Action & Workflow
@@ -35,6 +38,9 @@
 ## ERD Diagram
 
 - ERD Cloud
+
+<img width="770" alt="crocket_erd_최종" src="https://user-images.githubusercontent.com/36457434/203004500-ad751ab1-a6bb-467a-91f8-4857e2e92fb0.png">
+
 
 <br><br>
 
